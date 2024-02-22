@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.back {
+  min-height: auto;
+  background-image: url('./assets/enhanced-image.png');
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-size: contain;
+  width: 100%;
+  mix-blend-mode: color-burn;
+}
+.back1{
+  background-image: url('./assets/Contact\ Us\ Grad.png');
+  min-height: auto;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+@media (max-width:1062px) {
+  .back{
+    background-size: cover;
+    background-position: unset;
+
+  }
+  
+}
+@media (max-width:964px){
+  .back{
+   background-image: unset;
+  }
+}

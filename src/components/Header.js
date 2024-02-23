@@ -29,7 +29,7 @@ function Header() {
           <ul className='nav-op'>
             <li><Link to="/">Home</Link></li>
             <li><a href="https://www.youtube.com/">Records</a></li>
-            <li><a href="https://www.youtube.com/">About Us</a></li>
+            <li><Link to="/about">About Us</Link></li>
             <li><Link to="/contact">Contact Us</Link></li>
           </ul>
         </nav>

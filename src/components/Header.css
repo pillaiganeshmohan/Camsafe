@@ -63,6 +63,7 @@
     border-radius: 10px;
     cursor: pointer;
     transition: 0.5s ease;
+    font-weight: bold;
   }
   
   .btnn a {
@@ -129,7 +130,7 @@
   }
   
   /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {background-color: rgb(30, 30, 77);}
+  .dropdown-content a:hover {background-color: rgb(25, 25, 102);}
   
   /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
   .show {display:block;}

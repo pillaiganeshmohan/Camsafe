@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap'); 
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -13,22 +15,14 @@ code {
 }
 
 .back {
-  min-height: auto;
+  min-height: 90vh;
   background-image: url('./assets/enhanced-image.png');
   background-repeat: no-repeat;
   background-position-x: center;
   background-size: contain;
   width: 100%;
-  mix-blend-mode: color-burn;
 }
-.back1{
-  background-image: url('./assets/Contact\ Us\ Grad.png');
-  min-height: auto;
-  width: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+
 @media (max-width:1062px) {
   .back{
     background-size: cover;

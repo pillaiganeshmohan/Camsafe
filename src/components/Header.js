@@ -1,5 +1,6 @@
 import React from 'react'
 import './Header.css'
+import { Link } from 'react-router-dom';
 function Header() {
 
   function myFunction() {
@@ -26,10 +27,10 @@ function Header() {
         <nav class="left">
           <span>CamSafe</span>
           <ul className='nav-op'>
-            <li><a href="#link">Home</a></li>
-            <li><a href="#link">Records</a></li>
-            <li><a href="http://localhost:3000/about">About Us</a></li>
-            <li><a href="http://localhost:3000/contact">Contact Us</a></li>
+            <li><Link to="/">Home</Link></li>
+            <li><a href="https://www.youtube.com/">Records</a></li>
+            <li><a href="https://www.youtube.com/">About Us</a></li>
+            <li><Link to="/contact">Contact Us</Link></li>
           </ul>
         </nav>
 
@@ -44,8 +45,8 @@ function Header() {
                 <a href="link4">Contact Us</a>
               </div>
             </div>
-            <button class="btnn"> <a href="https://www.youtube.com/watch?v=JvC7aA24m4Q&list=PLu0W_9lII9agx66oZnT6IyhcMIbUMNMdt&index=4">User</a> </button>
-            <button class="btnn"> <a href="https://www.youtube.com/watch?v=JvC7aA24m4Q&list=PLu0W_9lII9agx66oZnT6IyhcMIbUMNMdt&index=4">Admin</a> </button>
+            <button class="btnn"><Link to="/signup">User</Link></button>
+            <button class="btnn"><Link to="/adminsignup">Admin</Link></button>
           </ul>
         </nav>
       </div>

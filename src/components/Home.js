@@ -2,6 +2,7 @@ import styles from "./Home.module.css";
 import grad from "../assets/grad.svg";
 import home1 from "../assets/home.png";
 import Header from "./Header";
+import Footer from './Footer'
 
 const Landing = () => {
   return (
@@ -42,6 +43,7 @@ const Landing = () => {
             </div>
           </div>
         </section>
+        <Footer/>
     </div>
   );
 };

@@ -4,11 +4,13 @@ footer{
     display: flex;
     flex-direction: column;
     color: white;
+    margin-top: 1.5%;
 }
 
 .side1{
     display: flex;
     margin: 20px 60px 0px 60px;
+    
 }
 
 .company-name{
@@ -35,7 +37,6 @@ footer{
 
 .footer-1{
     margin: auto;
-    border-top: solid 2px gray;
     display: flex;
     justify-content: center;
     align-items: center;

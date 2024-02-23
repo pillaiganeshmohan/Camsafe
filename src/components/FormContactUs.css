@@ -77,12 +77,17 @@ textarea {
   margin: auto;
 }
 
+.form-error{
+  color: darkred;
+  margin: 0 0 10px 0;
+}
 button:hover {
   background-color: rgb(66, 66, 145);
   color: black;
 }
 
 #successMessage {
+  height: 60vh;
   display: none;
   font-size: 25px;
   text-align: center;
@@ -106,6 +111,8 @@ button:hover {
   #message-box{
     padding: 5px 10px 30px 10px;
     justify-content: center;
+    display: flex;
+    flex-direction: column;
   }
   #back-2 img{
     display: block;
@@ -125,4 +132,20 @@ button:hover {
     font-size: 17px;
     height: 40px;
   }
+}
+
+@media only screen and (max-width:964px) {
+  #back-2 img{
+    margin: auto;
+    display: flex;
+    width: 357px;
+  }
+  #contactForm{
+    margin: auto;
+  }
+  #successMessage{
+    height: 30vh;
+    margin: 10px 10px;
+  }
+  
 }

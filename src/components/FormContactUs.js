@@ -1,59 +1,131 @@
-import React from 'react'
-import './FormContactUs.css'
+import React, { useState } from 'react';
+import './FormContactUs.css';
+import { useFormik } from 'formik';
+import { signUpSchema } from '../schemas';
+
+const initialValues = {
+  name: '',
+  lastname: '',
+  email: '',
+  message: '',
+};
+
 function FormContactUs() {
-  function submitForm() {
-    var name = document.getElementById('name').value;
-    var email = document.getElementById('email').value;
-    var message = document.getElementById('message').value;
+  const [formData, setFormData] = useState(initialValues);
 
-    // Basic form validation
-    if (name.trim() === '' || email.trim() === '' || message.trim() === '') {
-      alert('Please fill in all fields.');
-      return;
-    }
+  const {
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormik({
+    initialValues,
+    validationSchema: signUpSchema,
+    onSubmit: (values, action) => {
+      console.log('Form submitted:', values);
+      // Assuming you have a function to send data to the backend
+      
 
-    // Display success message
-    document.getElementById('contactForm').style.display = 'none';
-    document.getElementById('successMessage').style.display = 'block';
+      // Reset form and clear state
+      resetForm();
+      setFormData(initialValues);
+    },
+  });
 
-    // resetting the form after 15 seconds
-    setTimeout(function () {
-      document.getElementById('contactForm').reset();
-      document.getElementById('contactForm').style.display = 'block';
-      document.getElementById('successMessage').style.display = 'none';
-    }, 15000);
-  }
+  const handleFieldChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    handleChange(e);
+  };
+
   return (
-    <><div id="message-box">
+    <div id="message-box">
       <div id='back-2'>
         <img src={require('../assets/back2.png')} alt="contact" />
       </div>
-      <form id="contactForm">
-        <div class="name">
-          <label for="name">First Name:
-            <input type="text" id="name" name="name" required placeholder='Enter First Name' />
+      <form id="contactForm" onSubmit={handleSubmit}>
+        <div className="name">
+          <label htmlFor="name">
+            First Name:
+            <input
+              type="name"
+              autoComplete="off"
+              name="name"
+              id="name"
+              placeholder="First Name"
+              value={formData.name}
+              onChange={handleFieldChange}
+              onBlur={handleBlur}
+            />
+            {errors.name && touched.name ? (
+              <p className="form-error">{errors.name}</p>
+            ) : null}
           </label>
-          <label for="name">Last Name:
-            <input type="text" id="name" name="name" required placeholder='Enter Last Name' />
+          <label htmlFor="lastname">
+            Last Name:
+            <input
+              type="name"
+              autoComplete="off"
+              name="lastname"
+              id="lastname"
+              placeholder="Last Name"
+              value={formData.lastname}
+              onChange={handleFieldChange}
+              onBlur={handleBlur}
+            />
+            {errors.lastname && touched.lastname ? (
+              <p className="form-error">{errors.lastname}</p>
+            ) : null}
           </label>
         </div>
 
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          autoComplete="off"
+          name="email"
+          id="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleFieldChange}
+          onBlur={handleBlur}
+        />
+        {errors.email && touched.email ? (
+          <p className="form-error">{errors.email}</p>
+        ) : null}
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required title="enter proper email id" placeholder='Enter Email' />
+        <label htmlFor="message">What can we help you with?</label>
+        <textarea
+          autoComplete="off"
+          name="message"
+          id="message"
+          rows={4}
+          placeholder="Enter Message"
+          value={formData.message}
+          onChange={handleFieldChange}
+          onBlur={handleBlur}
+        />
+        {errors.message && touched.message ? (
+          <p className="form-error">{errors.message}</p>
+        ) : null}
 
-        <label for="message">What can we help you with?</label>
-        <textarea id="message" name="message" rows="4" required placeholder='Your message'></textarea>
-
-        <button className="submit_btn" type="button" onClick={() => submitForm()}>Submit</button>
+        <button className="submit_btn" type="submit">
+          Submit
+        </button>
       </form>
-    </div>
-      <section>
-        <div id="successMessage" class="hidden">
-          <p>Thank you for contacting us! Your message has been successfully submitted.</p>
-        </div></section></>
 
-  )
+      <section>
+        <div id="successMessage" className={formData.submitted ? '' : 'hidden'}>
+          <p>Thank you for contacting us! Your message has been successfully submitted.</p>
+        </div>
+      </section>
+    </div>
+  );
 }
 
-export default FormContactUs
+export default FormContactUs;

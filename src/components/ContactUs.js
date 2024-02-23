@@ -8,7 +8,7 @@ import FormContactUs from './FormContactUs';
 
 function ContactUs() {
   return (
-    <div>
+    <div className='back1'>
       <Header />
       <section className='back'>
         <ContentContactUs />

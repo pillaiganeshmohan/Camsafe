@@ -1,0 +1,37 @@
+.footer{
+    margin: auto;
+    border-top: solid 2px gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 6vh;
+    width: 31%;
+    text-align: center;
+    padding: 0px 7px 19px 8px;
+}
+
+.footer img{
+    margin-top: 2px;
+}
+
+.f{
+    margin-left: 6px;
+    color: gray;
+    font-size: bolder;
+}
+
+@media (max-width:961px) {
+    .footer {
+        width: 60%;
+    }
+    
+}
+
+
+@media (max-width:550px){
+    .footer{
+        font-size: 12px;
+        width: 90%;
+    }
+    
+  }

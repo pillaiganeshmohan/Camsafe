@@ -1,4 +1,5 @@
-# views.py
+from rest_framework import status
+
 from rest_framework import generics
 from .models import Subject
 from .serializers import SubjectSerializer
@@ -16,6 +17,12 @@ from .models import ContactUs
 from .serializers import ContactUsSerializer
 from .models import SubjectHistory
 from .serializers import SubjectHistorySerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
+from .serializers import UserLoginSerializer
+
 #
 class SubjectList(generics.ListCreateAPIView):
     queryset = Subject.objects.all()
@@ -84,3 +91,15 @@ class ContactUsCreateView(generics.CreateAPIView):
 class ContactUsDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ContactUs.objects.all()
     serializer_class = ContactUsSerializer
+
+
+class UserLoginAPIView(APIView):
+    def post(self, request):
+        serializer = UserLoginSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        
+        refresh = RefreshToken.for_user(user)
+    
+        
+        return Response({"message": "Login successful", 'refresh': str(refresh),'access': str(refresh.access_token),}, status=status.HTTP_200_OK)

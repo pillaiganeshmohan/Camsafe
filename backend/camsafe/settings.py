@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'camsafedata',
     'corsheaders',
+    'rest_framework_simplejwt',
 ]
 
 REST_FRAMEWORK = {
@@ -47,9 +48,11 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -140,3 +143,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.custom_auth_backend.EmailAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Include default authentication backend
+    # Add other authentication backends if needed
+]

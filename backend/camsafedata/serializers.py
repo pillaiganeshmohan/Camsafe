@@ -3,7 +3,59 @@ from rest_framework import serializers
 from .models import Subject, CCTVIdentityMaster, CcTVIdentityTransaction
 from .models import AdminIdentity,UserIdentity,FeatureData,ContactUs,SubjectHistory
 from django.contrib.auth import authenticate
+from .models import User, UserProfile
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 
+
+class MyTokenObtainPairSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(
+        max_length=128,
+        write_only=True,
+        style={'input_type': 'password'}
+    )
+    token = serializers.CharField(max_length=255, read_only=True)
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+
+        if email and password:
+            user = authenticate(request=self.context.get('request'),
+                                email=email, password=password)
+
+            if not user:
+                msg = 'Unable to log in with provided credentials.'
+                raise serializers.ValidationError(msg, code='authorization')
+            
+            if not user.is_active:
+                msg = 'User account is disabled.'
+                raise serializers.ValidationError(msg, code='authorization')
+
+        else:
+            msg = 'Must include "email" and "password".'
+            raise serializers.ValidationError(msg, code='authorization')
+
+        refresh = RefreshToken.for_user(user)
+
+        attrs['token'] = {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
+        return attrs['token']
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+    user_profile = UserProfileSerializer()
+
+    class Meta:
+        model = User
+        fields = '__all__'
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,3 +120,23 @@ class UserLoginSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+class UserActivationSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        max_length=128,
+        write_only=True,
+        style={'input_type': 'password'}
+    )
+
+    class Meta:
+        model = User
+        fields = ('email', 'password', 'user_role', 'police_station_code', 'police_station_name', 'state', 'district', 'taluka', 'pin_code', 'location', 'thane_incharge','username')
+    
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user

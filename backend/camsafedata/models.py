@@ -1,4 +1,63 @@
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.core.exceptions import ValidationError
+
+class UserManager(BaseUserManager):
+    def create_user(self, email, password, user_role='user', **extra_fields):
+        if not email:
+            raise ValueError('The Email must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, user_role=user_role, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_active', True)
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+        return self.create_user(email, password, user_role='admin', **extra_fields)
+
+class User(AbstractUser):
+    email = models.CharField(max_length=100, unique=True)
+    is_active = models.BooleanField(default=True)
+    user_role = models.CharField(max_length=100, choices=[('user', 'User'), ('admin', 'Admin')], default='user')
+    police_station_code = models.CharField(max_length=100)
+    police_station_name = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    district = models.CharField(max_length=100)
+    taluka = models.CharField(max_length=100)
+    pin_code = models.CharField(max_length=100)
+    location = models.CharField(max_length=255)
+    thane_incharge = models.CharField(max_length=255)
+    
+    class Meta:
+        verbose_name = 'user'
+        verbose_name_plural = 'users'
+
+    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'email'
+
+    objects = UserManager()
+
+    def clean(self):
+        super().clean()
+        if self.user_role not in ['user', 'admin']:
+            raise ValidationError({'user_role': 'User role must be either "user" or "admin".'})
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="user_profile")
+    phone = models.CharField(max_length=255, blank=True, null=True)
+    is_active = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.email
+
+
 
 class Subject(models.Model):
     SI_subject_id = models.IntegerField(primary_key=True)

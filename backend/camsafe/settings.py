@@ -146,7 +146,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.custom_auth_backend.EmailAuthBackend',
     'django.contrib.auth.backends.ModelBackend',  # Include default authentication backend
     # Add other authentication backends if needed
 ]
+
+AUTH_USER_MODEL = 'camsafedata.User'

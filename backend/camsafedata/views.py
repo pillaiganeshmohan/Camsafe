@@ -1,28 +1,23 @@
 from rest_framework import status
-
 from rest_framework import generics
-from .models import Subject
-from .serializers import SubjectSerializer
-from .models import CCTVIdentityMaster
-from .serializers import CCTVIdentityMasterSerializer
-from .models import AdminIdentity
-from .serializers import AdminIdentitySerializer
-from .models import UserIdentity
-from .serializers import UserIdentitySerializer
-from .models import CcTVIdentityTransaction
-from .serializers import CcTVIdentityTransactionSerializer
-from .models import FeatureData
-from .serializers import FeatureDataSerializer
-from .models import ContactUs
-from .serializers import ContactUsSerializer
-from .models import SubjectHistory
-from .serializers import SubjectHistorySerializer
+from .models import *
+from .serializers import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
-from .serializers import UserLoginSerializer
+from rest_framework import viewsets
+from .models import User
+from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib.auth import get_user_model
 
+class UserListCreate(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 #
 class SubjectList(generics.ListCreateAPIView):
     queryset = Subject.objects.all()
@@ -103,3 +98,38 @@ class UserLoginAPIView(APIView):
     
         
         return Response({"message": "Login successful", 'refresh': str(refresh),'access': str(refresh.access_token),}, status=status.HTTP_200_OK)
+    
+
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+class UserCreateAPIView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCreateSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    
+User = get_user_model()
+
+class UserActivationAPIView(APIView):
+    def post(self, request):
+        serializer = UserActivationSerializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+            try:
+                user = User.objects.get(email=email)
+                user.is_active = not user.is_active  # Toggle the is_active field
+                user.save()
+                activation_status = "activated" if user.is_active else "deactivated"
+                return Response({'message': f'User with email {email} {activation_status} successfully'}, status=status.HTTP_200_OK)
+            except User.DoesNotExist:
+                return Response({'error': f'User with email {email} does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

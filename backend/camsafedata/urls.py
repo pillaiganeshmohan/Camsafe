@@ -1,8 +1,5 @@
 from django.urls import path
-from .views import SubjectList, SubjectDetail, CCTVIdentityMasterList, CCTVIdentityMasterDetail, AdminIdentityDetail
-from .views import UserIdentityDetailView, CcTVIdentityTransactionList, CcTVIdentityTransactionDetailView,SubjectHistoryList, SubjectHistoryDetail
-from .views import FeatureDataList, FeatureDataDetailView
-from .views import UserIdentityCreateView,AdminIdentityCreateView,ContactUsCreateView,UserLoginAPIView
+from .views import *
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -28,6 +25,10 @@ urlpatterns = [
     path('feature_data/<int:pk>/', FeatureDataDetailView.as_view(), name='feature-data-list'),
     path('contact_us/', ContactUsCreateView.as_view(), name='contact-us-data'),
     path('contact_us/<int:pk>/', FeatureDataDetailView.as_view(), name='contact-us-data'),
-     path('token/', UserLoginAPIView.as_view(), name='token_obtain_pair'),
+    path('login/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('users/', UserListCreate.as_view(), name='user-list-create'),
+    path('users/<int:pk>/', UserRetrieveUpdateDestroy.as_view(), name='user-retrieve-update-destroy'),
+    path('users/register/', UserCreateAPIView.as_view(), name='user_create'),
+    path('user-activation/', UserActivationAPIView.as_view(), name='user-activation'),
 ]
 

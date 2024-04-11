@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.core.exceptions import ValidationError
+import uuid,os
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, user_role='user', **extra_fields):
@@ -32,7 +33,7 @@ class User(AbstractUser):
     pin_code = models.CharField(max_length=100)
     location = models.CharField(max_length=255)
     thane_incharge = models.CharField(max_length=255)
-    
+
     class Meta:
         verbose_name = 'user'
         verbose_name_plural = 'users'
@@ -119,12 +120,12 @@ class AdminIdentity(models.Model):
     district = models.CharField(max_length=25)
     taluka = models.CharField(max_length=25)
 
-    
- 
 
-   
-    
-    
+
+
+
+
+
 
     def __str__(self):
         return self.name
@@ -135,7 +136,7 @@ class UserIdentity(models.Model):
     contactNumber = models.IntegerField(max_length=10)
     password = models.CharField(max_length=50)
     policeCenterCode = models.IntegerField()
-    
+
 
     def __str__(self):
         return f"{self.name}"
@@ -182,3 +183,31 @@ class ContactUs(models.Model):
 
     def __str__(self):
         return f"{self.name} {self.lastname}"
+
+
+       
+        # SUBJECT DETAIL VIEW & HISTORY
+def upload_path(instance, filename):
+    return os.path.join('master_front_profile', str(instance.id), filename)
+
+class SubjectDetails(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
+    name = models.CharField(max_length=200)
+    address = models.TextField(blank=True, null=True)
+    age = models.IntegerField()
+    gender = models.CharField(max_length=10)
+    offence = models.CharField(max_length=200)
+    aadhar_no = models.BigIntegerField(null=True, default=None)
+    date = models.DateField(null=True)
+    day = models.CharField(max_length=20)
+    longitude = models.CharField(max_length=30)
+    latitude = models.CharField(max_length=30)
+    image = models.ImageField(upload_to = 'img',  blank = True, null=True, default='')
+    master_front_profile = models.ImageField(upload_to=upload_path, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+class ProImage(models.Model):
+    product = models.ForeignKey(SubjectDetails, on_delete=models.CASCADE, related_name = "images")
+    image = models.ImageField(upload_to = 'img',  blank = True, null=True, default='')

@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from rest_framework import status
 from rest_framework import generics
 from .models import *
@@ -7,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework import viewsets
-from .models import User
+from .models import User, SubjectDetails
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
 
@@ -93,12 +94,12 @@ class UserLoginAPIView(APIView):
         serializer = UserLoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        
+
         refresh = RefreshToken.for_user(user)
-    
-        
+
+
         return Response({"message": "Login successful", 'refresh': str(refresh),'access': str(refresh.access_token),}, status=status.HTTP_200_OK)
-    
+
 
 
 
@@ -115,7 +116,7 @@ class UserCreateAPIView(generics.CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-    
+
 User = get_user_model()
 
 class UserActivationAPIView(APIView):
@@ -133,3 +134,24 @@ class UserActivationAPIView(APIView):
                 return Response({'error': f'User with email {email} does not exist'}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+# SUBJECT DETAIL  & HISTORY PAGE
+class SubjectDetailsListCreateView(generics.ListCreateAPIView):
+    queryset = SubjectDetails.objects.all()
+    serializer_class = ProductSerializer
+
+class SubjectDetailsRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SubjectDetails.objects.all()
+    serializer_class = ProductSerializer
+
+class SubjectViewSet(viewsets.ModelViewSet):
+    queryset = SubjectDetails.objects.all()
+    serializer_class = ProductSerializer
+
+    def post(self, request, *args, **kwargs):
+        master_front_profile = request.data['master_front_profile']
+        id = request.data['subject_id']
+        SubjectDetails.objects.create(id=id, master_front_profile=master_front_profile)
+        return HttpResponse({'message':'Image Done'}, status = 200)

@@ -1,6 +1,6 @@
 # serializers.py
 from rest_framework import serializers
-from .models import Subject, CCTVIdentityMaster, CcTVIdentityTransaction
+from .models import Subject, CCTVIdentityMaster, CcTVIdentityTransaction, SubjectDetails,ProImage
 from .models import AdminIdentity,UserIdentity,FeatureData,ContactUs,SubjectHistory
 from django.contrib.auth import authenticate
 from .models import User, UserProfile
@@ -28,7 +28,7 @@ class MyTokenObtainPairSerializer(serializers.Serializer):
             if not user:
                 msg = 'Unable to log in with provided credentials.'
                 raise serializers.ValidationError(msg, code='authorization')
-            
+
             if not user.is_active:
                 msg = 'User account is disabled.'
                 raise serializers.ValidationError(msg, code='authorization')
@@ -136,7 +136,34 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'password', 'user_role', 'police_station_code', 'police_station_name', 'state', 'district', 'taluka', 'pin_code', 'location', 'thane_incharge','username')
-    
+
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
+
+
+# SUBJECT DETAIL VIEW & HISTORY PAGE
+class ProImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProImage
+        fields = ['id', 'image']
+
+# ProductSerializer for subjects detail
+class ProductSerializer(serializers.ModelSerializer):
+    images = ProImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(max_length=100000000, allow_empty_file=False, use_url=False),
+        write_only=True
+    )
+
+    class Meta:
+        model = SubjectDetails
+        fields = ['id', 'name', 'address','age', 'date', 'longitude', 'latitude', 'images','master_front_profile', 'uploaded_images']
+
+    def create(self, validated_data):
+        uploaded_images = validated_data.pop('uploaded_images')
+        product = SubjectDetails.objects.create(**validated_data)
+        for image in uploaded_images:
+            ProImage.objects.create(product=product, image=image)
+        return product

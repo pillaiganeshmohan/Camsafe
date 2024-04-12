@@ -1,0 +1,44 @@
+#content_contact {
+  height: auto;
+  width: 100%;
+}
+
+.maincontent_contact {
+  padding: 10px 20px 0px 80px;
+  font-weight: 700;
+  font-size: 18px;
+  font-family: sans-serif;
+  color: black;
+}
+
+.title_contact {
+  margin: 20px 0px;
+  font-size: 40px;
+  text-align: left;
+}
+
+.para_contact {
+  letter-spacing: 0.3px;
+  line-height: 30px;
+  font-size: 25px;
+  font-family: sans-serif;
+  color: black;
+  margin: 0px;
+
+}
+
+@media (max-width:679px){
+  .maincontent_contact{
+    padding: 10px 10px 0px 15px;
+  }
+  .title_contact{
+    margin: 15px 0px;
+    font-size: 25px;
+  }
+
+  .para_contact{
+    font-size: 79%;
+    line-height: 20px;
+  }
+  
+}

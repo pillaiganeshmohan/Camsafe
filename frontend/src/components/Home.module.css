@@ -1,0 +1,316 @@
+.gradIcon,
+.gradIcon1 {
+  position: relative;
+  max-width: 100%;
+  max-height: fit-content ;
+}
+.gradIcon {
+  width: 100%;
+  object-fit: cover;
+  height:50%;
+}
+.gradIcon1 {
+  align-self: stretch;
+  overflow: hidden;
+  object-fit: contain;
+  display: none;
+}
+.empoweringSafetySecuring,
+.welcomeToCamsafe {
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  z-index: 2;
+}
+.empoweringSafetySecuring {
+  margin: 0;
+  align-self: stretch;
+  height: fit-content;
+  font-size: 55px;
+  line-height: 65.4px;
+  font-weight: 700;
+  width: 85%;
+  font-family: inherit;
+}
+.welcomeToCamsafe {
+  width: 634px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  max-width: 100%;
+}
+.container{
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+
+}
+.getStartedText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 25px;
+  min-width: 487px;
+  max-width: 100%;
+}
+.illustrationIcon {
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  object-fit: cover;
+  mix-blend-mode: darken;
+  z-index: 2;
+}
+.adminGroup,
+.illustrationFrame {
+  display: flex;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+
+.btnn {
+  border: solid;
+  width: fit-content;
+  height: 40px;
+  background-color: rgb(54, 54, 194);
+  color: white;
+  border: none;
+  margin: 0px 0px;
+  font-size: 18px;
+  font-family: sans-serif;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.5s ease;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+
+
+  justify-content: center;
+  
+}
+
+.btnn a {
+  color: white;
+  background-attachment: fixed;
+  font-family: sans-serif;
+  font-size: 18px;
+  text-decoration: none;
+  display: flex;
+  font-weight: bold;
+}
+
+.btnn :hover {
+  background-color: rgb(55, 55, 121);
+  color: black;
+}  
+
+.adminGroup {
+  height: fit-content;
+  width: 593px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15px 0 0;
+  box-sizing: border-box;
+  min-width: 593px;
+  margin-left: -79px;
+}
+.illustrationFrame {
+  align-self: stretch;
+  flex-direction: row;
+  align-items: center;
+  row-gap: 20px;
+}
+.getStarted {
+  position: relative;
+  font-size: var(--font-size-mini);
+  line-height: 30px;
+  font-family: var(--font-poppins);
+  color: var(--color-gray-100);
+  text-align: center;
+}
+.autoLayoutHorizontal {
+  cursor: pointer;
+  border: 1px solid var(--color-mediumslateblue-100);
+  padding: var(--padding-smi) 24px var(--padding-smi) var(--padding-8xl);
+  background-color: transparent;
+  width: 146px;
+  border-radius: var(--br-3xs);
+  background: linear-gradient(
+      180deg,
+      rgba(66, 76, 222, 0.2),
+      transparent,
+      rgba(66, 76, 222, 0)
+    ),
+    linear-gradient(
+      90deg,
+      rgba(37, 6, 228, 0.8),
+      rgba(54, 126, 255, 0.8) 80%,
+      rgba(54, 126, 255, 0.8)
+    ),
+    rgba(66, 76, 222, 0.8);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08), 0-1px 1px rgba(0, 0, 0, 0.08),
+    0 2px 2px rgba(0, 0, 0, 0.16), 0 1px 0 rgba(255, 255, 255, 0.16) inset;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  z-index: 2;
+}
+.autoLayoutHorizontal:hover {
+  background-color: rgba(105, 115, 255, 0.8);
+  border: 1px solid rgba(105, 115, 255, 0.2);
+  box-sizing: border-box;
+}
+.welcomeToCamSafeWhereInno {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.empoweringSafetySecuringTom,
+.grad,
+.gradParent,
+.welcomeToCamSafeWhereInno {
+  display: flex;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.empoweringSafetySecuringTom {
+  width: 1314px;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0 30px 0 var(--padding-xl);
+  box-sizing: border-box;
+}
+.grad,
+.gradParent {
+  flex-direction: column;
+}
+.gradParent {
+  background-image: url("../assets/grad.png");
+  align-self: stretch;
+  align-items: center;
+  padding: 20px 20px;
+  box-sizing: border-box;
+  gap: var(--gap-18xl);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  z-index: 1;
+  text-align: left;
+  font-size: 64px;
+  color: var(--color-darkslateblue);
+  font-family: var(--font-poppins);
+}
+.grad {
+  flex: 1;
+  align-items: flex-start;
+  min-height: fit-content;
+}
+.landing {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-white);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: normal;
+}
+@media screen and (max-width: 1050px) {
+  .empoweringSafetySecuring {
+    font-size: 51px;
+    line-height: 69px;
+  }
+  .illustrationIcon {
+    align-self: stretch;
+    width: auto;
+  }
+  .adminGroup {
+    flex: 1;
+    margin-left: 0;
+  }
+  .illustrationFrame {
+    flex-wrap: wrap;
+  }
+  .gradParent {
+    padding-bottom: 42px;
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 750px) {
+  .adminGroup,
+  .getStartedText {
+    min-width: 100%;
+  }
+  .gradParent {
+    gap: var(--gap-18xl);
+  }
+}
+@media screen and (max-width: 450px) {
+  .empoweringSafetySecuring {
+    font-size: 38px;
+    line-height: 52px;
+  }
+}
+  .welcomeToCamsafe {
+    font-size: 20px;
+    line-height: 25px;
+  }
+
+  @media screen and (max-width: 750px) {
+    /* Styles for screens up to 750px wide */
+    .illustrationIcon{
+      display: none;
+      
+    }
+    .empoweringSafetySecuring{
+      text-align: center;
+      width: 100%;
+    }
+    .welcomeToCamSafeWhereInno{
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  
+  @media screen and (max-width: 1024px) {
+    /* Styles for screens up to 450px wide */
+    .illustrationIcon{
+      display: none;
+
+    }
+    .gradIcon{
+      
+    }
+    .empoweringSafetySecuring{
+      text-align: center;
+      width: 100%;
+    }
+    .welcomeToCamSafeWhereInno{
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    .welcomeToCamsafe{
+      width: 100%;
+      text-align: justify;
+    }
+    .gradParent{
+      
+    }
+  }
+
+  

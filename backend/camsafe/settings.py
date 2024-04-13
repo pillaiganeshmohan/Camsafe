@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'camsafedata',
     'corsheaders',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 REST_FRAMEWORK = {

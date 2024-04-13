@@ -1,9 +1,7 @@
 # serializers.py
 from rest_framework import serializers
-from .models import Subject, CCTVIdentityMaster, CcTVIdentityTransaction
-from .models import AdminIdentity,UserIdentity,FeatureData,ContactUs,SubjectHistory
+from .models import *
 from django.contrib.auth import authenticate
-from .models import User, UserProfile
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -38,7 +36,10 @@ class MyTokenObtainPairSerializer(serializers.Serializer):
             raise serializers.ValidationError(msg, code='authorization')
 
         refresh = RefreshToken.for_user(user)
-
+        print("Before saving: ", user.login_status)
+        user.login_status = True
+        user.save(update_fields=['login_status'])
+        print("After saving: ", user.login_status)
         attrs['token'] = {
             'refresh': str(refresh),
             'access': str(refresh.access_token),
@@ -111,6 +112,8 @@ class UserLoginSerializer(serializers.Serializer):
                 if not user.is_active:
                     msg = 'User account is disabled.'
                     raise serializers.ValidationError(msg, code='authorization')
+                # Update login_status to True if the user is successfully authenticated
+                
             else:
                 msg = 'Unable to log in with provided credentials.'
                 raise serializers.ValidationError(msg, code='authorization')
@@ -119,8 +122,10 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError(msg, code='authorization')
 
         attrs['user'] = user
+        
         return attrs
-
+    
+    
 class UserActivationSerializer(serializers.Serializer):
     email = serializers.EmailField()
 

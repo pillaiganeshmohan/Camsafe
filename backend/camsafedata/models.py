@@ -32,6 +32,7 @@ class User(AbstractUser):
     pin_code = models.CharField(max_length=100)
     location = models.CharField(max_length=255)
     thane_incharge = models.CharField(max_length=255)
+    login_status = models.BooleanField(default=False)
     
     class Meta:
         verbose_name = 'user'
@@ -175,10 +176,10 @@ class FeatureData(models.Model):
 
 
 class ContactUs(models.Model):
-    name = models.CharField(max_length=50)  # Change field name from CU_fname to fname
-    lastname = models.CharField(max_length=50)  # Change field name from CU_lname to lname
-    email = models.EmailField(max_length=50, primary_key=True)  # Change field name from CU_email to email
-    message = models.CharField(max_length=100)  # Change field name from CU_desc to desc
+    name = models.CharField(max_length=50) 
+    lastname = models.CharField(max_length=50) 
+    email = models.EmailField(max_length=50, primary_key=True) 
+    message = models.CharField(max_length=100) 
 
     def __str__(self):
         return f"{self.name} {self.lastname}"

@@ -10,6 +10,14 @@ from rest_framework import viewsets
 from .models import User
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import api_view
+
+
+
 
 class UserListCreate(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -93,6 +101,15 @@ class UserLoginAPIView(APIView):
         serializer = UserLoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+
+        print("Before saving: ", user.login_status)
+
+        # Update login_status and save the user object
+        user.login_status = True
+        user.save(update_fields=['login_status'])
+
+        # Debugging line: Print the login_status after saving
+        print("After saving: ", user.login_status)
         
         refresh = RefreshToken.for_user(user)
     
@@ -118,6 +135,23 @@ class UserCreateAPIView(generics.CreateAPIView):
     
 User = get_user_model()
 
+
+class UserLogoutAPIView(APIView):
+    def post(self, request):
+        user_email = request.data.get('email')
+        print("user_email", user_email)
+        try:
+            user = User.objects.get(email=user_email)
+            if user.user_role == 'admin':
+                return Response({'error': 'Admin cannot be logged out'}, status=400)
+            else:
+                user.login_status = False
+                user.save()
+                return Response({'message': 'User logged out successfully'})
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=404)
+   
+
 class UserActivationAPIView(APIView):
     def post(self, request):
         serializer = UserActivationSerializer(data=request.data)
@@ -125,11 +159,12 @@ class UserActivationAPIView(APIView):
             email = serializer.validated_data['email']
             try:
                 user = User.objects.get(email=email)
-                user.is_active = not user.is_active  # Toggle the is_active field
+                user.is_active = not user.is_active  
                 user.save()
                 activation_status = "activated" if user.is_active else "deactivated"
                 return Response({'message': f'User with email {email} {activation_status} successfully'}, status=status.HTTP_200_OK)
             except User.DoesNotExist:
                 return Response({'error': f'User with email {email} does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -30,5 +30,6 @@ urlpatterns = [
     path('users/<int:pk>/', UserRetrieveUpdateDestroy.as_view(), name='user-retrieve-update-destroy'),
     path('users/register/', UserCreateAPIView.as_view(), name='user_create'),
     path('user-activation/', UserActivationAPIView.as_view(), name='user-activation'),
+    path('logout/', UserLogoutAPIView.as_view(), name='user-logout'),
 ]
 

@@ -32,7 +32,7 @@ function SignUp() {
           // Assuming you have a backend API endpoint for form submission
           const response = axios.post('http://127.0.0.1:8000/api/user_identity/', formData);
           console.log('Server response:', response.data);
-         
+
         } catch (error) {
           console.error('Error submitting form:', error);
         }
@@ -46,64 +46,72 @@ function SignUp() {
             <div className={styles.leftDiv1}>
                 <div className={styles.formContainer}>
                     <label className={styles.logoLabel}>CamSafe</label>
-                    <img className={styles.loginLogo} src={pad}/>
                     <label className={styles.logoLabel} id={styles.login1}>Welcome</label>
                     <form className={styles.signUpForm} onSubmit={handleSubmit}>
                         <label className={styles.formLabel1}>Name</label>
-                        <input 
-                            className={styles.formInput1} 
-                            type='text' 
-                            name='name' 
-                            value={formData.name} 
-                            onChange={handleChange} 
+                        <input
+                            className={styles.formInput1}
+                            type='text'
+                            name='name'
+                            value={formData.name}
+                            onChange={handleChange}
                             placeholder='Pasta'
                         />
                         <label className={styles.formLabel1}>Contact Number</label>
-                        <input 
-                            className={styles.formInput1} 
-                            type='text' 
-                            name='contactNumber' 
-                            value={formData.contactNumber} 
-                            onChange={handleChange} 
+                        <input
+                            className={styles.formInput1}
+                            type='text'
+                            name='contactNumber'
+                            value={formData.contactNumber}
+                            onChange={handleChange}
                             placeholder='XXXXX-XXXXX'
                         />
                         <label className={styles.formLabel1}>Password</label>
-                        <input 
-                            className={styles.formInput1} 
-                            type='password' 
-                            name='password' 
-                            value={formData.password} 
-                            onChange={handleChange} 
+                        <input
+                            className={styles.formInput1}
+                            type='password'
+                            name='password'
+                            value={formData.password}
+                            onChange={handleChange}
                             placeholder='Password must be 8 characters'
                         />
                         <label className={styles.formLabel1}>Re-enter Password</label>
-                        <input 
-                            className={styles.formInput1} 
-                            type='password' 
-                            name='reEnterPassword' 
-                            value={formData.reEnterPassword} 
-                            onChange={handleChange} 
+                        <input
+                            className={styles.formInput1}
+                            type='password'
+                            name='reEnterPassword'
+                            value={formData.reEnterPassword}
+                            onChange={handleChange}
                             placeholder='Re-enter your password'
                         />
                         <label className={styles.formLabel1}>Police Center Code</label>
-                        <input 
-                            className={styles.formInput1} 
-                            type='text' 
-                            name='policeCenterCode' 
-                            value={formData.policeCenterCode} 
-                            onChange={handleChange} 
+                        <input
+                            className={styles.formInput1}
+                            type='text'
+                            name='policeCenterCode'
+                            value={formData.policeCenterCode}
+                            onChange={handleChange}
                             placeholder='Enter Police center code'
-                        />
+                            />
+                            <div className="flex">
+                                <div className={styles.captcha1}>
+                                    <label>Captcha
+                                        <button className="button_captcha"><img src={reload} className={styles.reload}/></button>
+                                    </label>
+                                    <input type='text'/>
+                                </div>
+                                <input type="text" placeholder="Enter your OTP"/>
+                            </div>
                         <label className={styles.rememberMe}>
-                            <input 
-                                type='checkbox' 
-                                name='agreedToTerms' 
-                                checked={formData.agreedToTerms} 
-                                onChange={handleChange} 
+                            <input
+                                type='checkbox'
+                                name='agreedToTerms'
+                                checked={formData.agreedToTerms}
+                                onChange={handleChange}
                             />
                             I agree to terms & conditions
                         </label>
-                        
+
                         <Button name="Submit" onClick={handleSubmit}/>
                         <br/>
                         <label className={styles.account}>Already Have an Account?</label>

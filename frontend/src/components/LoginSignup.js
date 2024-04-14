@@ -23,19 +23,19 @@ function LoginSignup() {
                     <input className={styles.formInput} type='text' placeholder='xyz@gmail.com'/>
                     <label className={styles.formLabel}>Password</label>
                     <input className={styles.formInput} type='password' placeholder='Enter Password'/>
-                    <label className={styles.rememberMe}>
+                    <label className={styles.rememberMe1}>
                         <input type='checkbox'/>Remember Me
                     </label>
                     <div className={styles.captcha1}>
-                    <label>Captcha
-                        <img src={reload} className={styles.reload}/>
-                    </label>
-                    <input type='text'/>
+                        <label className="label_Captcha">Captcha
+                            <button className="button_captcha"><img src={reload} className={styles.reload}/></button>
+                        </label>
+                        <input type='text' placeholder='Enter Captcha'/>
                     </div>
-                    <Button name="Send OTP"/>
+                    <Button name="Send OTP" />
                     <br/>
                     <label className={styles.noAccount}>Don't Have an Account?</label>
-                    <label className={styles.noAccount} id={styles.signUp}><Link to="/signup">Signup</Link></label>
+                    <label className={styles.noAccount1} id={styles.signUp}><Link to="/signup">Signup</Link></label>
                 </form>
             </div>
         </div>

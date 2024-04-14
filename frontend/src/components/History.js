@@ -1,86 +1,51 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Header from "./Historyhenader.js";
-import Footer from "./Footer";
-import "./History.css";
-import image from "../assets/history.png";
-import bg from "../assets/Group17.png";
+import React from 'react'
+// import HistoryHeader from "./Historyheader";
+import detail_bg from '../assets/Contact Us Grad.png';
+import history_img from "../assets/history.png"
 
 function History() {
-  const handleDetailView = (subId) => {
-    // Implement your logic for detailed view here
-  };
-
-  const [historyData, setHistoryData] = useState([]);
-
-  useEffect(() => {
-    // Make a GET request when the component mounts
-    axios.get('http://127.0.0.1:8000/api/subject-history/')
-      .then(response => {
-        // Update the state with the fetched data
-        setHistoryData(response.data);
-      })
-      .catch(error => {
-        // Handle error
-        console.error('Error fetching data:', error);
-      });
-  }, []); // Empty dependency array ensures the effect runs only once when the component mounts
-
   return (
-    <div>
-      <Header />
-      <div id="content">
-        <div class="maincontent">
-          <div>
-            <h1 class="title" id="11">
-              History
-            </h1>
-            <p class="para">
-              Here's a list of criminals records that has been found in our
-              database
-            </p>
-          </div>
-
-          <img id="history" src={image} />
+      <div className="flex flex-col items-center w-full">
+        {/* <HistoryHeader toggleDashboard={undefined} /> */}
+        <img src={detail_bg} className="w-full absolute top-16 left-0 -z-10 object-fill sm:h-full" />
+      <div className="flex flex-col item-center justify-center">
+          <div className="flex flex-row sm:flex-col">
+            <div className="flex flex-col">
+              <label className="p-5 text-6xl ml-14 mt-28 font-bold sm:mt-36 sm:text-3xl sm:text-center sm:ml-0">History</label>
+              <label className="text-2xl ml-20 font-bold sm:text-xs sm:text-center sm:-mt-4 sm:ml-0">Here is a list of criminals records that has been found <br/> in our database</label>
+            </div>
+            <img src={history_img} className="mt-20 ml-auto sm:mt-36 sm:max-w-60 sm:mt-0 sm:mr-20" />
         </div>
-        <div class="container">
-          <table id="12" class="rwd-table">
-            <tbody id="13">
-              <tr id="14">
-                <th>Subject ID</th>
-                <th>Name</th>
-                <th>Camera Location</th>
-                <th>Date</th>
-                <th>Day</th>
-                <th>Footage ID</th>
-                <th>Camera ID</th>
-                <th>Detailed View</th>
+        <div className="overflow-x-auto">
+        <table className="mt-8 w-9/12 ml-auto mr-auto sm:w-fit">
+            <thead className="">
+              <tr className="bg-blue-500 text-white sm:text-xs">
+                <th className="p-3">Sub. Id</th>
+                <th className="">Sub. Name</th>
+                <th className="">Date</th>
+                <th className="">Day</th>
+                <th className="">Footage Id</th>
+                <th className="">Camera Id</th>
+                <th className="">Detailed View</th>
               </tr>
-              {historyData.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.SH_subject_id}</td>
-                  <td>{item.SH_subject_name}</td>
-                  <td>{item.SH_camera_location_name}</td>
-                  <td>{item.SH_date}</td>
-                  <td>{item.SH_day}</td>
-                  <td>{item.SH_footage_id}</td>
-                  <td>{item.SH_camera_id}</td>
-                  <td>
-                    <button
-                      onClick={() => handleDetailView(item.SH_subject_id)}
-                    >
-                      View Details
-                    </button>
-                  </td>
-                </tr>
-              ))}
+            </thead>
+            <tbody className="sm:text-xs sm:font-normal">
+              <tr className="text-center font-medium sm:text-xs">
+                <td className="py-2 sm:p-1.5">1121</td>
+                <td className="py-2 sm:p-1.5">Pasta Haha</td>
+                <td className="py-2 sm:p-1.5">13/4/2024</td>
+                <td className="py-2 sm:p-1.5">Saturday</td>
+                <td className="py-2 sm:p-1.5">1253.64</td>
+                <td className="py-2 sm:p-0.5">24r665.6y</td>
+                <td className="py-2 cursor-pointer hover:underline sm:p-1.5">View Details</td>
+              </tr>
             </tbody>
           </table>
         </div>
+
+        </div>
       </div>
-      <Footer />
-    </div>
-  );
+  )
 }
 
-export default History;
+export default History

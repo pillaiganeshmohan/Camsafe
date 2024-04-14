@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import './FormContactUs.css';
-import { useFormik } from 'formik';
-import { signUpSchema } from '../schemas';
-import axios from 'axios';
+  import React, { useState } from 'react';
+  import './FormContactUs.css';
+  import { useFormik } from 'formik';
+  import { signUpSchema } from '../schemas';
+  import axios from 'axios';
 
-const initialValues = {
-  name: '',
-  lastname: '',
-  email: '',
-  message: '',
-};
+  const initialValues = {
+    name: '',
+    lastname: '',
+    email: '',
+    message: '',
+  };
 
-function FormContactUs() {
-  const [formData, setFormData] = useState(initialValues);
+  function FormContactUs() {
+    const [formData, setFormData] = useState(initialValues);
 
   const {
     errors,
@@ -56,7 +56,7 @@ function FormContactUs() {
       </div>
       <form id="contactForm" onSubmit={handleSubmit}>
         <div className="name">
-          <label htmlFor="name">
+          <label htmlFor="name" className="contact_label">
             First Name:
             <input
               type="name"
@@ -72,7 +72,7 @@ function FormContactUs() {
               <p className="form-error">{errors.name}</p>
             ) : null}
           </label>
-          <label htmlFor="lastname">
+          <label htmlFor="lastname" className="contact_label">
             Last Name:
             <input
               type="name"
@@ -90,7 +90,7 @@ function FormContactUs() {
           </label>
         </div>
 
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email" className="contact_label">Email:</label>
         <input
           type="email"
           autoComplete="off"
@@ -105,7 +105,7 @@ function FormContactUs() {
           <p className="form-error">{errors.email}</p>
         ) : null}
 
-        <label htmlFor="message">What can we help you with?</label>
+        <label htmlFor="message" className="contact_label">What can we help you with?</label>
         <textarea
           autoComplete="off"
           name="message"

@@ -11,11 +11,10 @@ import AdminSignup from './components/AdminSignup';
 import History from './components/History';
 
 function App() {
-  
+
   return (
     <Router>
     <div className="App">
-      
         <Routes>
         <Route path="/header" element={<Header/>} />
         <Route path="/history" element={<History/>} />
@@ -25,10 +24,10 @@ function App() {
         <Route path="/login" element={<LoginSignup/>} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/adminsignup" element={<AdminSignup/>} />
-        </Routes> 
+        </Routes>
     </div>
     </Router>
-    
+
   );
 }
 

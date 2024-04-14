@@ -1,4 +1,4 @@
-.mainContainer{
+.mainContainer {
     padding: 30px 0;
     display: flex;
     width: 100%;
@@ -6,179 +6,205 @@
     justify-content: center;
 }
 
-
-.mainCont{
+.mainCont {
     width: 100%;
     background: linear-gradient(to right, #ffffff, #8697dc);
 }
 
-
-
-
-.leftDiv{
-    width: auto;
-    display: flex;
-    align-items: center;
-    height: 91vh;
-}
-
-.rightDiv{
-    background-color: white;
-    width: auto;
-    display: flex;
-    height: 91vh;
-    flex-direction: column;
-}
-
-.rightDiv1{
+.leftDiv {
     width: auto;
     display: flex;
     align-items: center;
     height: 98vh;
 }
 
-.leftDiv1{
-
+.rightDiv {
     background-color: white;
-    min-width: 350px;
+    width: auto;
     display: flex;
     height: 98vh;
     flex-direction: column;
 }
 
-.loginPhoto{
-    width: 350px;
+.rightDiv1 {
+    width: auto;
+    display: flex;
+    align-items: center;
+    height: 98vh;
+}
+
+.leftDiv1 {
+    background-color: white;
+    width: 600px;
+    display: flex;
+    height: 98vh;
+    flex-direction: column;
+}
+
+.loginPhoto {
+    width: 600px;
     height: 100%;
     border: 1px solid;
 }
 
-.loginPhoto1{
-    width: 350px;
+.loginPhoto1 {
+    width: 600px;
     height: 100%;
     border: 1px solid;
 }
 
-.loginLogo{
+.loginLogo {
     width: 20%;
     height: 15%;
 }
 
-.rememberMe{
+.rememberMe {
     display: flex;
     flex-direction: row;
     font-family: Poppins;
     font-size: 16px;
     font-style: italic;
     line-height: 10px;
-    height:20px;
+    height: 20px;
 }
 
-.captcha{
+.rememberMe1 {
+    display: flex;
+    flex-direction: row;
+    font-family: Poppins;
+    font-size: 19px;
+    font-style: italic;
+    line-height: 10px;
+    height: 20px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.captcha {
     display: flex;
 }
 
-.captcha img{
-    align-items: flex-end ;
+.captcha img {
+    align-items: flex-end;
 }
 
-.captcha label{
- width: 30%;
- background-color: #D9D9D9;
- height: 30px;
- border-radius: 8px 0 0 8px;
- display: flex;
- align-items: center;
- justify-content: flex-start;
- padding-left: 2%;
- font-family: Poppins;
- font-weight: bold;
+.captcha label {
+    width: 30%;
+    background-color: #D9D9D9;
+    height: 30px;
+    border-radius: 8px 0 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 2%;
+    font-family: Poppins;
+    font-weight: bold;
 }
 
-.captcha1{
+.captcha1 {
     display: flex;
 }
 
-.captcha1 img{
-    align-items: flex-end ;
+.captcha1 img {
+    align-items: flex-end;
 }
 
-.captcha1 label{
- width: 30%;
- background-color: #D9D9D9;
- height: 40px;
- border-radius: 8px 0 0 8px;
- display: flex;
- align-items: center;
- justify-content: flex-start;
- padding-left: 2%;
- font-family: Poppins;
- font-weight: bold;
+.captcha1 label {
+    width: 30%;
+    background-color: #D9D9D9;
+    height: 40px;
+    border-radius: 8px 0 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 2%;
+    font-family: Poppins;
+    font-weight: bold;
 }
 
-.buttonContainer{
+.buttonContainer {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.reload{
-    width: 15%;
-    height: 45%;
+.reload {
+    width: 25%;
+    /* height: 55%; */
     display: flex;
-    margin-left: 15%;
+    margin-left: 65%;
 }
 
-#signUp{
+.button_captcha {
+    border-style: none !important;
+    height: 10%;
+}
+
+#signUp {
     font-style: italic;
     color: #2E52E0;
     font-weight: bold;
 }
 
-.passwordContainer{
+.passwordContainer {
     display: flex;
     flex-direction: row;
 }
 
-#password{
+#password {
     margin-right: 1%;
     font-size: 18px;
 }
 
-#repassword{
+#repassword {
     margin-left: 1%;
     font-size: 18px;
 }
 
-#repassword1{
+#repassword1 {
     margin-left: 1%;
     margin-right: 1%;
     font-size: 18px;
 }
 
-.noAccount{
+.noAccount {
     display: flex;
     align-items: center;
     justify-content: center;
     line-height: 10px;
 }
 
-.account{
+.noAccount1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 10px;
+    margin-top: 4%;
+}
+
+.account,
+.account1 {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 5px;
 }
 
-#login{
+.account1 {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+#login {
     font-size: 30px;
 }
 
-#login1{
+#login1 {
     font-size: 25px;
-    line-height:20px;
+    line-height: 20px;
 }
 
-.button{
+.button {
     height: 40px;
     width: 50%;
     background-color: #2E52E0;
@@ -187,19 +213,19 @@
     border: none;
 }
 
-.captcha input{
-width: 70%;
-height: 30px;
-border-radius: 0 8px 8px 0;
+.captcha input {
+    width: 70%;
+    height: 30px;
+    border-radius: 0 8px 8px 0;
 }
 
-.captcha1 input{
+.captcha1 input {
     width: 70%;
     height: 40px;
     border-radius: 0 8px 8px 0;
-    }
+}
 
-.rememberMe input{
+.rememberMe input {
     width: 23px;
     line-height: 10px;
     height: 15px;
@@ -210,29 +236,30 @@ border-radius: 0 8px 8px 0;
     line-height: 10px;
 }
 
-.signUpForm{
+.rememberMe1 input {
+    width: 23px;
+    line-height: 10px;
+    height: 15px;
+    margin-left: 0%;
+    margin-right: 2%;
+    margin-top: -0.5%;
+    padding: 0%;
+    line-height: 10px;
+}
+
+.signUpForm {
     float: left;
     width: 80%;
 }
 
-.logoLabel{
+.logoLabel {
     font-family: Poppins;
     font-size: 45px;
-    text-decoration:none;
+    text-decoration: none;
     line-height: 40px;
-    
 }
 
-.formContainer{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid;
-}
-.formContainer1{
+.formContainer {
     width: 100%;
     height: 100%;
     display: flex;
@@ -242,43 +269,60 @@ border-radius: 0 8px 8px 0;
     border: 2px solid;
 }
 
-.formLabel{
+.formContainer1 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid;
+}
+
+.formLabel {
     font-weight: bold;
     width: 100%;
     line-height: 15px;
+    font-size: 18px;
 }
 
-.formLabel1{
+.formLabel1 {
     font-weight: bold;
-
     width: 100%;
     line-height: 2px;
+    margin-bottom: 2%;
 }
 
-.formInput{
- width: 100%;
- height: 60px;
+.formInput {
+    width: 100%;
+    height: 60px;
+    margin-top: 1%;
 }
 
-.formInput1{
+.formInput1 {
     width: 100%;
     height: 40px;
-   }
+    margin-right: 2%;
+}
 
-   @media (max-width:780px){
-    .leftDiv{
+.formInput2 {
+    width: 100%;
+    height: 40px;
+    margin-right: 2%;
+    margin-top: 1%;
+}
+
+@media (max-width:780px) {
+    .leftDiv {
         display: none;
     }
-    .rightDiv{
+    .rightDiv {
         margin: 10px 20px;
-
     }
-
-    .rightDiv1{
+    .rightDiv1 {
         display: none;
     }
-
-    .leftDiv1{
+    .leftDiv1 {
         margin: 10px 20px;
     }
-   }
+}

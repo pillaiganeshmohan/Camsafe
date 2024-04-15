@@ -1,20 +1,21 @@
 import React from 'react'
-// import HistoryHeader from "./Historyheader";
-import detail_bg from '../assets/Contact Us Grad.png';
-import history_img from "../assets/history.png"
+import HistoryHeader from "./HistoryHeader";
+import detail_bg from '../../assets/Contact Us Grad.png';
+import history_img from "../../assets/history.png"
+import { Link } from 'react-router-dom';
 
 function History() {
   return (
       <div className="flex flex-col items-center w-full">
-        {/* <HistoryHeader toggleDashboard={undefined} /> */}
+        <HistoryHeader />
         <img src={detail_bg} className="w-full absolute top-16 left-0 -z-10 object-fill sm:h-full" />
       <div className="flex flex-col item-center justify-center">
           <div className="flex flex-row sm:flex-col">
             <div className="flex flex-col">
-              <label className="p-5 text-6xl ml-14 mt-28 font-bold sm:mt-36 sm:text-3xl sm:text-center sm:ml-0">History</label>
+              <label className="p-5 text-6xl ml-14 mt-28 font-bold sm:mt-20 sm:text-3xl sm:text-center sm:ml-0">History</label>
               <label className="text-2xl ml-20 font-bold sm:text-xs sm:text-center sm:-mt-4 sm:ml-0">Here is a list of criminals records that has been found <br/> in our database</label>
             </div>
-            <img src={history_img} className="mt-20 ml-auto sm:mt-36 sm:max-w-60 sm:mt-0 sm:mr-20" />
+            <img src={history_img} className="mt-20 ml-auto sm:mt-3 sm:max-w-60 sm:mt-0 sm:mr-20" />
         </div>
         <div className="overflow-x-auto">
         <table className="mt-8 w-9/12 ml-auto mr-auto sm:w-fit">
@@ -37,12 +38,11 @@ function History() {
                 <td className="py-2 sm:p-1.5">Saturday</td>
                 <td className="py-2 sm:p-1.5">1253.64</td>
                 <td className="py-2 sm:p-0.5">24r665.6y</td>
-                <td className="py-2 cursor-pointer hover:underline sm:p-1.5">View Details</td>
+                <td className="py-2 cursor-pointer hover:underline sm:p-1.5"><a href="/detailed-view">View Details</a></td>
               </tr>
             </tbody>
           </table>
         </div>
-
         </div>
       </div>
   )

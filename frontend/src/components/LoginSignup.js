@@ -27,7 +27,7 @@ function LoginSignup() {
                         <input type='checkbox'/>Remember Me
                     </label>
                     <div className={styles.captcha1}>
-                        <label className="label_Captcha">Captcha
+                        <label>Captcha
                             <button className="button_captcha"><img src={reload} className={styles.reload}/></button>
                         </label>
                         <input type='text' placeholder='Enter Captcha'/>

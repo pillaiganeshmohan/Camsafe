@@ -1,0 +1,18 @@
+.admin_main {
+    background-image: url('../../assets/admin_grad.png');
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    flex-direction: row;
+}
+
+.shift-right {
+    margin-left: 10%;
+    /* Adjust the value as needed for shifting to the right */
+}
+
+.shift-left {
+    margin-left: 0%;
+    /* Adjust the value as needed for shifting to the left */
+}

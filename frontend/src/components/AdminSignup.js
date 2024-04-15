@@ -21,6 +21,8 @@ function AdminSignup() {
         taluka: '',
     });
 
+    const [otpSent, setOtpSent] = useState(false);
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData(prevState => ({
@@ -36,6 +38,8 @@ function AdminSignup() {
             // Assuming you have a backend API endpoint for form submission
             const response = axios.post('http://127.0.0.1:8000/api/admin-identity/', formData);
             console.log('Server response:', response.data);
+            // Set OTP sent status to true
+            setOtpSent(true);
 
           } catch (error) {
             console.error('Error submitting form:', error);
@@ -61,12 +65,12 @@ function AdminSignup() {
                         />
 
                         <div className={styles.passwordContainer}>
-                            <label className={styles.formLabel1}>Contact Number</label>
-                            <label className={styles.formLabel1}>Email</label>
+                            <label className={styles.formLabel4}>Contact Number</label>
+                            <label className={styles.formLabel4}>Email</label>
                         </div>
                         <div className={styles.passwordContainer}>
                             <input
-                                className={styles.formInput1}
+                                className={styles.formInput4}
                                 type='text'
                                 name='contactNumber'
                                 value={formData.contactNumber}
@@ -74,7 +78,7 @@ function AdminSignup() {
                                 placeholder='XXXXX-XXXXX'
                             />
                             <input
-                                className={styles.formInput1}
+                                className={styles.formInput4}
                                 type='text'
                                 name='email'
                                 value={formData.email}
@@ -84,12 +88,12 @@ function AdminSignup() {
                         </div>
 
                         <div className={styles.passwordContainer}>
-                            <label className={styles.formLabel1}>Password</label>
-                            <label className={styles.formLabel1}>Re-enter Password</label>
+                            <label className={styles.formLabel4}>Password</label>
+                            <label className={styles.formLabel4}>Re-enter Password</label>
                         </div>
                         <div className={styles.passwordContainer}>
                             <input
-                                className={styles.formInput1}
+                                className={styles.formInput4}
                                 type='password'
                                 name='password'
                                 value={formData.password}
@@ -97,7 +101,7 @@ function AdminSignup() {
                                 placeholder='Enter Password'
                             />
                             <input
-                                className={styles.formInput1}
+                                className={styles.formInput4}
                                 type='password'
                                 name='reEnterPassword'
                                 value={formData.reEnterPassword}
@@ -107,45 +111,12 @@ function AdminSignup() {
                         </div>
 
                         <div className={styles.passwordContainer}>
-                            <label className={styles.formLabel1}>Police Station Name</label>
-                            <label className={styles.formLabel1}>Police Station Code</label>
+                            <label className={styles.formLabel4}>Location</label>
+                            <label className={styles.formLabel4}>Pin Code</label>
                         </div>
                         <div className={styles.passwordContainer}>
                             <input
-                                className={styles.formInput1}
-                                type='text'
-                                name='policeStationName'
-                                value={formData.policeStationName}
-                                onChange={handleChange}
-                                placeholder='Police Station Name'
-                            />
-                            <input
-                                className={styles.formInput1}
-                                type='text'
-                                name='policeStationCode'
-                                value={formData.policeStationCode}
-                                onChange={handleChange}
-                                placeholder='Police Station Code'
-                            />
-                        </div>
-
-                        <label className={styles.formLabel1}>Thana Incharge</label>
-                        <input
-                            className={styles.formInput2}
-                            type='text'
-                            name='thanaIncharge'
-                            value={formData.thanaIncharge}
-                            onChange={handleChange}
-                            placeholder='Enter the name of Thana Incharge'
-                        />
-
-                        <div className={styles.passwordContainer}>
-                            <label className={styles.formLabel1}>Location</label>
-                            <label className={styles.formLabel1}>Pin Code</label>
-                        </div>
-                        <div className={styles.passwordContainer}>
-                            <input
-                                className={styles.formInput1}
+                                className={styles.formInput4}
                                 type='text'
                                 name='location'
                                 value={formData.location}
@@ -153,7 +124,7 @@ function AdminSignup() {
                                 placeholder='Location'
                             />
                             <input
-                                className={styles.formInput1}
+                                className={styles.formInput4}
                                 type='text'
                                 name='pinCode'
                                 value={formData.pinCode}
@@ -169,7 +140,7 @@ function AdminSignup() {
                         </div>
                         <div className={styles.passwordContainer}>
                             <input
-                                className={styles.formInput1}
+                                className={styles.formInput3}
                                 type='text'
                                 name='state'
                                 value={formData.state}
@@ -177,7 +148,7 @@ function AdminSignup() {
                                 placeholder='State'
                             />
                             <input
-                                className={styles.formInput1}
+                                className={styles.formInput3}
                                 type='text'
                                 name='district'
                                 value={formData.district}
@@ -185,12 +156,45 @@ function AdminSignup() {
                                 placeholder='District'
                             />
                             <input
-                                className={styles.formInput1}
+                                className={styles.formInput3}
                                 type='text'
                                 name='taluka'
                                 value={formData.taluka}
                                 onChange={handleChange}
                                 placeholder='Taluka'
+                            />
+                        </div>
+
+                        <label className={styles.formLabel1}>Thana Incharge</label>
+                        <input
+                            className={styles.formInput2}
+                            type='text'
+                            name='thanaIncharge'
+                            value={formData.thanaIncharge}
+                            onChange={handleChange}
+                            placeholder='Enter the name of Thana Incharge'
+                        />
+
+                        <div className={styles.passwordContainer}>
+                            <label className={styles.formLabel4}>Police Station Code</label>
+                            <label className={styles.formLabel4}>Enter OTP</label>
+                        </div>
+                        <div className={styles.passwordContainer}>
+                            <input
+                                className={styles.formInput4}
+                                type='text'
+                                name='policeStationName'
+                                value={formData.policeStationName}
+                                onChange={handleChange}
+                                placeholder='Police Station Code'
+                            />
+                            <input
+                                className={styles.formInput4}
+                                type='text'
+                                name='policeStationCode'
+                                value={formData.policeStationCode}
+                                onChange={handleChange}
+                                placeholder='Enter Your OTP'
                             />
                         </div>
 
@@ -203,10 +207,10 @@ function AdminSignup() {
                             />
                             I agree to terms & conditions
                         </label>
-                        <Button name="Send OTP"/>
+                        <Button name={otpSent ? "Verify OTP" : "Send OTP"}/> {/* Button text based on otpSent state */}
                         <br/>
                         <label className={styles.account}>Already Have an Account?</label>
-                        <label className={styles.account1}><Link to="/login">Login</Link></label>
+                        <label className={styles.account1} id={styles.signUp}><Link to="/login">Login</Link></label>
                     </form>
                 </div>
             </div>

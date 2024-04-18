@@ -1,0 +1,250 @@
+Metadata-Version: 2.1
+Name: ip2geotools
+Version: 0.1.6
+Summary: Simple tool for getting geolocation information on given IP address from various geolocation databases.
+Home-page: https://github.com/tomas-net/ip2geotools
+Author: Tomas Caha
+Author-email: tomas-net@seznam.cz
+License: MIT License
+Download-URL: https://github.com/tomas-net/ip2geotools/archive/0.1.6.tar.gz
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Intended Audience :: Telecommunications Industry
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Internet
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Utilities
+Requires-Dist: astroid (>=2.1.0)
+Requires-Dist: autopep8 (>=1.4.3)
+Requires-Dist: bleach (>=3.0.2)
+Requires-Dist: certifi (>=2018.10.15)
+Requires-Dist: chardet (>=3.0.4)
+Requires-Dist: Click (>=7.0)
+Requires-Dist: cssselect (>=1.0.3)
+Requires-Dist: decorator (>=4.3.0)
+Requires-Dist: dicttoxml (>=1.7.4)
+Requires-Dist: docutils (>=0.14)
+Requires-Dist: future (>=0.17.1)
+Requires-Dist: geocoder (>=1.38.1)
+Requires-Dist: geoip2 (>=2.9.0)
+Requires-Dist: idna (>=2.7)
+Requires-Dist: IP2Location (>=8.0.3)
+Requires-Dist: isort (>=4.3.4)
+Requires-Dist: lazy-object-proxy (>=1.3.1)
+Requires-Dist: lxml (>=4.2.5)
+Requires-Dist: maxminddb (>=1.4.1)
+Requires-Dist: mccabe (>=0.6.1)
+Requires-Dist: packaging (>=18.0)
+Requires-Dist: pip-review (>=1.0)
+Requires-Dist: pkginfo (>=1.4.2)
+Requires-Dist: pycodestyle (>=2.4.0)
+Requires-Dist: Pygments (>=2.3.0)
+Requires-Dist: pylint (>=2.2.0)
+Requires-Dist: pyparsing (>=2.3.0)
+Requires-Dist: pyquery (>=1.4.0)
+Requires-Dist: ratelim (>=0.1.6)
+Requires-Dist: readme-renderer (>=24.0)
+Requires-Dist: requests (>=2.20.1)
+Requires-Dist: requests-toolbelt (>=0.8.0)
+Requires-Dist: selenium (>=3.141.0)
+Requires-Dist: six (>=1.11.0)
+Requires-Dist: tqdm (>=4.28.1)
+Requires-Dist: twine (>=1.12.1)
+Requires-Dist: typed-ast (>=1.1.0)
+Requires-Dist: typing (>=3.6.6)
+Requires-Dist: urllib3 (>=1.24.1)
+Requires-Dist: webencodings (>=0.5.1)
+Requires-Dist: wrapt (>=1.10.11)
+
+
+===========
+ip2geotools
+===========
+
+Description
+-----------
+
+``ip2geotools`` is a simple tool for getting geolocation information on given IP address from various geolocation databases. This package provides an API for several geolocation databases.
+
+Installation
+------------
+
+To install the ``ip2geotools`` module, type:
+
+.. code-block:: bash
+
+    $ pip install ip2geotools
+
+Basic usage
+-----------
+
+.. code-block:: pycon
+
+    >>> from ip2geotools.databases.noncommercial import DbIpCity
+    >>> response = DbIpCity.get('147.229.2.90', api_key='free')
+    >>> response.ip_address
+    '147.229.2.90'
+    >>> response.city
+    'Brno (Brno střed)'
+    >>> response.region
+    'South Moravian'
+    >>> response.country
+    'CZ'
+    >>> response.latitude
+    49.1926824
+    >>> response.longitude
+    16.6182105
+    >>> response.to_json()
+    '{"ip_address": "147.229.2.90", "city": "Brno (Brno střed)", "region": "South Moravian", "country": "CZ", "latitude": 49.1926824, "longitude": 16.6182105}'
+    >>> response.to_xml()
+    '<?xml version="1.0" encoding="UTF-8" ?><ip_location><ip_address>147.229.2.90</ip_address><city>Brno (Brno střed)</city><region>South Moravian</region><country>CZ</country><latitude>49.1926824</latitude><longitude>16.6182105</longitude></ip_location>'
+    >>> response.to_csv(',')
+    '147.229.2.90,Brno (Brno střed),South Moravian,CZ,49.1926824,16.6182105'
+
+Command-line usage
+------------------
+
+When installed, you can invoke ``ip2geotools`` from the command-line:
+
+.. code:: bash
+
+    ip2geotools [-h] -d {dbipcity,hostip,freegeoip,ipstack,maxmindgeolite2city,ip2location,dbipweb,maxmindgeoip2city,ip2locationweb,neustarweb,geobytescitydetails,skyhookcontextacceleratorip,ipinfo,eurek,ipdata}
+                       [--api_key API_KEY] [--db_path DB_PATH] [-u USERNAME]
+                       [-p PASSWORD] [-f {json,xml,csv-space,csv-tab,inline}] [-v]
+                       IP_ADDRESS
+
+Where:
+
+* ``ip2geotools``: is the script when installed in your environment, in development you could use ``python -m ip2geotools`` instead
+
+* ``IP_ADDRESS``: IP address to be checked
+
+* ``-h``, ``--help``: show help message and exit
+
+* ``-d {dbipcity,hostip,...,ipdata}``: geolocation database to be used (case insesitive)
+
+* ``--api_key API_KEY``: API key for given geolocation database (if needed)
+
+* ``--db_path DB_PATH``: path to geolocation database file (if needed)
+
+* ``-u USERNAME``, ``--username USERNAME``: username for accessing given geolocation database (if needed)
+
+* ``-p PASSWORD``, ``--password PASSWORD``: password for accessing given geolocation database (if needed)
+
+* ``-f {json,xml,csv-space,csv-tab,inline}``, ``--format {json,xml,csv-space,csv-tab,inline}``: output data format
+
+* ``-v``, ``--version``: show program's version number and exit
+
+Examples:
+
+.. code:: bash
+
+    $ ip2geotools 147.229.2.90 -d dbipcity -f json
+    {"ip_address": "147.229.2.90", "city": "Brno (Brno střed)", "region": "South Moravian", "country": "CZ", "latitude": 49.1926824, "longitude": 16.6182105}
+
+Models
+------
+
+This module contains models for the data returned by geolocation databases
+and these models are also used for comparison of given and provided data.
+
+``ip2geotools.models.IpLocation``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Model for storing location of given IP address.
+
+Attributes:
+
+* ``ip_address``: IP address
+* ``city``: city where IP address is located
+* ``region``: region where IP address is located
+* ``country``: country where IP address is located (two letters country code)
+* ``latitude``: latitude where IP address is located
+* ``longitude``: longitude where IP address is located
+
+Methods:
+
+* ``to_json``: returns model data in JSON format
+* ``to_xml``: returns model data in XML format (root element: ``ip_location``)
+* ``to_csv``: returns model data in CSV format separated by given delimiter
+* ``__str__``: internal string representation of model, every single information on new line
+
+Exceptions
+----------
+
+This module provides special exceptions used when accessing data from
+third-party geolocation databases.
+
+* ``ip2geotools.errors.LocationError``: a generic location error
+* ``ip2geotools.errors.IpAddressNotFoundError``: the IP address was not found
+* ``ip2geotools.errors.PermissionRequiredError``: problem with authentication or authorization of the request; check your permission for accessing the service
+* ``ip2geotools.errors.InvalidRequestError``: invalid request
+* ``ip2geotools.errors.InvalidResponseError``: invalid response
+* ``ip2geotools.errors.ServiceError``: response from geolocation database is invalid (not accessible, etc.)
+* ``ip2geotools.errors.LimitExceededError``: limits of geolocation database have been reached
+
+Databases
+---------
+
+Following classes access many different noncommercial and commercial geolocation databases using defined interface.
+
+``ip2geotools.databases.interfaces``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* ``IGeoIpDatabase``: interface for unified access to the data provided by various geolocation databases
+
+``ip2geotools.databases.noncommercial``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* ``DbIpCity``: https://db-ip.com/api/
+* ``HostIP``: http://hostip.info/
+* ``Freegeoip``: http://freegeoip.net/ **Database is deprecated!**
+* ``Ipstack``: https://ipstack.com/
+* ``MaxMindGeoLite2City``: https://dev.maxmind.com/geoip/geoip2/geolite2/
+* ``Ip2Location``: https://lite.ip2location.com/database/ip-country-region-city-latitude-longitude
+
+``ip2geotools.databases.commercial``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+* ``DbIpWeb``: https://db-ip.com/
+* ``MaxMindGeoIp2City``: https://www.maxmind.com/
+* ``Ip2LocationWeb``: https://www.ip2location.com/
+* ``NeustarWeb``: https://www.neustar.biz/resources/tools/ip-geolocation-lookup-tool/
+* ``GeobytesCityDetails``: http://geobytes.com/get-city-details-api/
+* ``SkyhookContextAcceleratorIp``: http://www.skyhookwireless.com/
+* ``IpInfo``: https://ipinfo.io/
+* ``Eurek``: https://www.eurekapi.com/
+* ``Ipdata``: https://ipdata.co/
+
+Requirements
+------------
+
+This code requires Python 3.3+ and several other packages listed in ``requirements.txt``.
+
+Support
+-------
+
+Please report all issues with this code using the `GitHub issue tracker
+<https://github.com/tomas-net/ip2geotools/issues>`_
+
+License
+-------
+
+``ip2geotools`` is released under the MIT License. See the bundled `LICENSE`_ file for details.
+
+Author
+------
+
+``ip2geotools`` was written by Tomas Caha <tomas-net at seznam dot cz> / <tomas.caha1 at vut dot cz> at `FEEC <http://www.feec.vutbr.cz/>`_ `BUT <https://www.vutbr.cz/>`_.
+

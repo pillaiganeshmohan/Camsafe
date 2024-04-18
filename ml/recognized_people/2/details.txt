@@ -1,0 +1,4 @@
+Name: sam
+Gender: Female
+Age: 21
+Aadhar: 123456789009

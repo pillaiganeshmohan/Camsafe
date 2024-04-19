@@ -2,6 +2,11 @@ import cv2
 import os
 from fetch import get_user_details
 from mail import send_email_with_attachment, fetch_recipient_emails
+from datetime import datetime, timedelta
+
+# Initialize dictionary to keep track of recognized faces and their last recognition time
+recognized_faces = {}
+last_recognition_time = {}
 
 def recognize_user(model):
     # Initialize video capture
@@ -9,9 +14,6 @@ def recognize_user(model):
 
     # Initialize Haar cascade classifier for face detection
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-
-    # Initialize dictionary to keep track of recognized faces
-    recognized_faces = {}
 
     # Get recipient emails from the API
     recipient_emails = fetch_recipient_emails()
@@ -37,10 +39,10 @@ def recognize_user(model):
             # If confidence is less than 100 (i.e., a match is found)
             if confidence < 100:
                 subject_id = label
-                subject_name = "Unknown"
-                subject_gender = "Unknown"
-                subject_age = "Unknown"
-                subject_aadhar = "Unknown"
+
+                if subject_id in last_recognition_time:
+                    if datetime.now() - last_recognition_time[subject_id] < timedelta(minutes=30):
+                        continue  # Skip sending email if less than 1 hour has passed
 
                 # Fetch user details using ID
                 user_details = get_user_details(subject_id)
@@ -59,24 +61,15 @@ def recognize_user(model):
                 image_path = os.path.join(person_directory, image_name)
                 cv2.imwrite(image_path, frame)
 
-                # Add the recognized face to the dictionary
-                if subject_id not in recognized_faces:
-                    recognized_faces[subject_id] = 1
-                else:
-                    recognized_faces[subject_id] += 1
-
-                # Send email with user details and camera details to each recipient
                 for recipient_email in recipient_emails:
-                    
                     send_email_with_attachment(recipient_email, "Subject Recognition Alert",
                                                f"Subject recognized:\nID: {subject_id}\nName: {subject_name}\n"
                                                f"Gender: {subject_gender}\nAge: {subject_age}\n"
                                                f"Aadhar: {subject_aadhar}", image_path)
                 
-
-                # If two images of the same person have been captured and sent, break the loop
-                if recognized_faces[subject_id] == 2:
-                    break
+                
+                # Update last recognition time for this person
+                last_recognition_time[subject_id] = datetime.now()
 
             # Draw a rectangle around the face
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
@@ -84,9 +77,6 @@ def recognize_user(model):
         # Display the resulting frame
         cv2.imshow('Video', frame)
 
-        # Check if email has been sent and break the loop
-        if recognized_faces:
-            break
 
         # Break the loop if 'q' is pressed
         if cv2.waitKey(1) & 0xFF == ord('q'):

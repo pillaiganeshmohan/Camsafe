@@ -2,8 +2,5 @@ opencv-python
 opencv-contrib-python
 face-recognition
 Pillow
-netifaces
 yagmail
 requests
-ip2geotools
-geopy

@@ -1,4 +1,3 @@
-import cv2
 import tkinter as tk
 from capture import camS
 from master import recognize_user

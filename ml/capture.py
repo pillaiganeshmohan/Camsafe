@@ -5,7 +5,6 @@ from tkinter import filedialog, messagebox
 import os
 import json
 from PIL import Image, ImageTk
-import re
 import shutil
 
 class camS:

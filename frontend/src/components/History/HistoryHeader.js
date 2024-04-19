@@ -32,10 +32,10 @@ function HistoryHeader({ toggleDashboard }) {
                 <div className='CamS'><span>CamSafe</span></div>
             </div>
             <ul className="nav-op1">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/history">Records</Link></li>
-            <li><Link to="/about">About Us</Link></li>
-            <li><Link to="/contact">Contact Us</Link></li>
+            <li><Link to="/" className=' hover:no-underline font-bold relative inline cursor-pointer text-xl  before:bg-violet-600  before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100'>Home</Link></li>
+            <li><Link to="/history" className=' hover:no-underline font-bold relative inline cursor-pointer text-xl before:bg-violet-600  before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100'>Records</Link></li>
+            <li><Link to="/about"  className='hover:no-underline relative font-bold inline cursor-pointer text-xl before:bg-violet-600  before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100'> About Us</Link></li>
+            <li><Link to="/contact"  className='hover:no-underline font-bold relative inline cursor-pointer text-xl before:bg-violet-600  before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100'>Contact Us</Link></li>
           </ul>
           </nav>
           <nav className="right1">
@@ -46,16 +46,16 @@ function HistoryHeader({ toggleDashboard }) {
                   className="dropbtn1"
                 ></button>
                 <div id="myDropdown" className="dropdown-content1">
-                  <a href="link">Home</a>
-                  <a href="link">Records</a>
-                  <a href="link">About Us</a>
-                  <a href="link4">Contact Us</a>
+                  <a href="/">Home</a>
+                  <a href="/history">Records</a>
+                  <a href="/about">About Us</a>
+                  <a href="/contact">Contact Us</a>
                 </div>
               </div>
               <span className="avtar1">
                 <div className="icon1">
                   <a href="link" className="icon_username1">
-                    Pasta Haha
+                    ABC XYZ
                   </a>
                   <img src={image} />
                 </div>

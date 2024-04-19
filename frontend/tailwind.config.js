@@ -6,7 +6,8 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                'blue_hover': "#2E52E0"
+                'blue_hover': "#2E52E0",
+                'gsbutton': "#141833",
             },
             screens: {
 

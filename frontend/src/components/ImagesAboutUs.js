@@ -10,13 +10,8 @@ function ImagesAboutUs() {
           <p>Back-end & ML</p>
         </div>
         <div className='team-info'>
-          <img src={require('../assets/Pasta.JPG')} alt="" />
-          <span>Aditya Pashte</span>
-          <p>UI-UX & ML</p>
-        </div>
-        <div className='team-info'>
           <img src={require('../assets/ganesh.jpg')} alt="" />
-          <span>Ganesh Pillai</span>
+          <span>Ganesh Mohan Pillai</span>
           <p>UI-UX & Front-end</p>
         </div>
         <div className='team-info'>
@@ -24,17 +19,22 @@ function ImagesAboutUs() {
           <span>Jannat Shaikh</span>
           <p>Back-end & ML</p>
         </div>
-      </div>
-      <div id='manage-team2'>
         <div className='team-info'>
           <img src={require('../assets/Samiktha.jpg')} alt="" />
           <span>Samiktha Punathil</span>
           <p>Back-end & ML</p>
         </div>
+      </div>
+      <div id='manage-team2'>
         <div className='team-info'>
           <img src={require('../assets/Mohini.jpg')} alt="" />
           <span>Mohini Pillai</span>
           <p>Front-end</p>
+        </div>
+        <div className='team-info'>
+          <img src={require('../assets/Pasta.JPG')} alt="" />
+          <span>Aditya Pashte</span>
+          <p>UI-UX & ML</p>
         </div>
         <div className='team-info'>
           <img src={require('../assets/Ankit.jpg')} alt="" />

@@ -3,6 +3,9 @@
   import { useFormik } from 'formik';
   import { signUpSchema } from '../schemas';
   import axios from 'axios';
+  import Button from './Button'
+
+
 
   const initialValues = {
     name: '',
@@ -51,7 +54,8 @@
 
   return (
     <div id="message-box">
-      <div id='back-2'>
+    <div className='flex w-full sm:flex-col justify-between px-4'>
+    <div id='back-2'>
         <img src={require('../assets/back2.png')} alt="contact" />
       </div>
       <form id="contactForm" onSubmit={handleSubmit}>
@@ -69,7 +73,7 @@
               onBlur={handleBlur}
             />
             {errors.name && touched.name ? (
-              <p className="form-error">{errors.name}</p>
+              <p className="form-error">Please enter your First name</p>
             ) : null}
           </label>
           <label htmlFor="lastname" className="contact_label">
@@ -85,7 +89,7 @@
               onBlur={handleBlur}
             />
             {errors.lastname && touched.lastname ? (
-              <p className="form-error">{errors.lastname}</p>
+              <p className="form-error">Please enter your Last name</p>
             ) : null}
           </label>
         </div>
@@ -102,7 +106,7 @@
           onBlur={handleBlur}
         />
         {errors.email && touched.email ? (
-          <p className="form-error">{errors.email}</p>
+          <p className="form-error">Please enter your Email</p>
         ) : null}
 
         <label htmlFor="message" className="contact_label">What can we help you with?</label>
@@ -117,13 +121,13 @@
           onBlur={handleBlur}
         />
         {errors.message && touched.message ? (
-          <p className="form-error">{errors.message}</p>
+          <p className="form-error">Please enter your Message</p>
         ) : null}
 
-        <button className="submit_btn" type="submit">
-          Submit
-        </button>
+        <Button name="Submit"/>
+ 
       </form>
+    </div>
 
       <section>
         <div id="successMessage" className={formData.submitted ? '' : 'hidden'}>

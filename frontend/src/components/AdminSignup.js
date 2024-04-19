@@ -50,8 +50,8 @@ function AdminSignup() {
 
     return (
         <div className={styles.mainContainer}>
-            <div className={styles.leftDiv}>
-                <div className={styles.formContainer}>
+            <div className={styles.leftDiv2}>
+                <div className={styles.formContainer2}>
                     <label className={styles.logoLabel}>CamSafe</label>
                     <form className={styles.signUpForm} onSubmit={handleSubmit}>
                         <label className={styles.formLabel1}>Name</label>
@@ -61,7 +61,7 @@ function AdminSignup() {
                             name='name'
                             value={formData.name}
                             onChange={handleChange}
-                            placeholder='Pasta'
+                            placeholder='XYZ ABC'
                         />
 
                         <div className={styles.passwordContainer}>

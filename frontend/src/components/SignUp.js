@@ -61,7 +61,7 @@ function SignUp() {
                             name='name'
                             value={formData.name}
                             onChange={handleChange}
-                            placeholder='Pasta'
+                            placeholder='XYZ ABC'
                             />
 
                         <label className={styles.formLabel1}>Contact Number</label>

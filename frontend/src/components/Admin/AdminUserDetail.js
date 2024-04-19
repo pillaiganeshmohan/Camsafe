@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+
 function AdminUserDetail() {
   const [approvalStatus, setApprovalStatus] = useState({
-    1: true, // Initial status for the first row
-    2: true, // Initial status for the second row
-    // Add more rows if needed
+    1: true,
+    2: true,
+    3: true,
+    4: true,
   });
 
   const handleApproval = (rowNumber) => {
@@ -30,106 +32,33 @@ function AdminUserDetail() {
           </tr>
         </thead>
         <tbody>
-          <tr className="text-center font-medium">
-            <td className="py-2 sm:p-2">01</td>
-            <td className="py-2 sm:p-2">Chembur Police Station</td>
-            <td className="py-2 sm:p-2">CPT0089</td>
-            <td className="py-2 sm:p-2">438</td>
-            <td className="py-2 sm:p-2">Ganesh Pillai</td>
-            <td className="py-2 sm:p-2">
-              {approvalStatus[1] ? (
-                <label
-                  className="text-green-500 cursor-pointer"
-                  onClick={() => handleApproval(1)}
-                >
-                  Logged In
-                </label>
-              ) : (
-                <label
-                  className="text-red-500 cursor-pointer"
-                  onClick={() => handleApproval(1)}
-                  disabled={!approvalStatus[1]} // Disable if already logged out
-                >
-                  Logged Out
-                </label>
-              )}
-            </td>
-          </tr>
-          <tr className="text-center font-medium">
-            <td className="py-2 sm:p-2">01</td>
-            <td className="py-2 sm:p-2">Chembur Police Station</td>
-            <td className="py-2 sm:p-2">CPT0089</td>
-            <td className="py-2 sm:p-2">438</td>
-            <td className="py-2 sm:p-2">Ganesh Pillai</td>
-            <td className="py-2 sm:p-2">
-              {approvalStatus[1] ? (
-                <label
-                  className="text-green-500 cursor-pointer"
-                  onClick={() => handleApproval(1)}
-                >
-                  Logged In
-                </label>
-              ) : (
-                <label
-                  className="text-red-500 cursor-pointer"
-                  onClick={() => handleApproval(1)}
-                  disabled={!approvalStatus[1]} // Disable if already logged out
-                >
-                  Logged Out
-                </label>
-              )}
-            </td>
-          </tr>
-          <tr className="text-center font-medium">
-            <td className="py-2 sm:p-2">01</td>
-            <td className="py-2 sm:p-2">Chembur Police Station</td>
-            <td className="py-2 sm:p-2">CPT0089</td>
-            <td className="py-2 sm:p-2">438</td>
-            <td className="py-2 sm:p-2">Ganesh Pillai</td>
-            <td className="py-2 sm:p-2">
-              {approvalStatus[1] ? (
-                <label
-                  className="text-green-500 cursor-pointer"
-                  onClick={() => handleApproval(1)}
-                >
-                  Logged In
-                </label>
-              ) : (
-                <label
-                  className="text-red-500 cursor-pointer"
-                  onClick={() => handleApproval(1)}
-                  disabled={!approvalStatus[1]} // Disable if already logged out
-                >
-                  Logged Out
-                </label>
-              )}
-            </td>
-          </tr>
-          <tr className="text-center font-medium">
-            <td className="py-2 sm:p-2">01</td>
-            <td className="py-2 sm:p-2">Chembur Police Station</td>
-            <td className="py-2 sm:p-2">CPT0089</td>
-            <td className="py-2 sm:p-2">438</td>
-            <td className="py-2 sm:p-2">Ganesh Pillai</td>
-            <td className="py-2 sm:p-2">
-              {approvalStatus[1] ? (
-                <label
-                  className="text-green-500 cursor-pointer"
-                  onClick={() => handleApproval(1)}
-                >
-                  Logged In
-                </label>
-              ) : (
-                <label
-                  className="text-red-500 cursor-pointer"
-                  onClick={() => handleApproval(1)}
-                  disabled={!approvalStatus[1]} // Disable if already logged out
-                >
-                  Logged Out
-                </label>
-              )}
-            </td>
-          </tr>
+          {[1, 2, 3, 4].map((rowNumber) => (
+            <tr key={rowNumber} className="text-center font-medium">
+              <td className="py-2 sm:p-2">{rowNumber}</td>
+              <td className="py-2 sm:p-2">Chembur Police Station</td>
+              <td className="py-2 sm:p-2">CPT0089</td>
+              <td className="py-2 sm:p-2">438</td>
+              <td className="py-2 sm:p-2">Ganesh Pillai</td>
+              <td className="py-2 sm:p-2">
+                {approvalStatus[rowNumber] ? (
+                  <label
+                    className="text-green-500 cursor-pointer"
+                    onClick={() => handleApproval(rowNumber)}
+                  >
+                    Logged In
+                  </label>
+                ) : (
+                  <label
+                    className="text-red-500 cursor-pointer"
+                    onClick={() => handleApproval(rowNumber)}
+                    disabled={!approvalStatus[rowNumber]}
+                  >
+                    Logged Out
+                  </label>
+                )}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

@@ -32,7 +32,7 @@ function LoginSignup() {
                         </label>
                         <input type='text' placeholder='Enter Captcha'/>
                     </div>
-                    <Button name="Send OTP" />
+                    <Button name="Submit" />
                     <br/>
                     <label className={styles.noAccount}>Don't Have an Account?</label>
                     <label className={styles.noAccount1} id={styles.signUp}><Link to="/signup">Signup</Link></label>

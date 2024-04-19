@@ -99,6 +99,7 @@ footer{
     border-top-right-radius: 0px 0px;
     width: 60%;
     margin-bottom: 0;
+    color: black;
 }
 #sub-checkbox{
     width: auto;
@@ -153,8 +154,7 @@ footer{
         
     }
     .subscribe-section{
-        width: 99%;
-        margin-right: -10%;
+        width: 80%;
         margin-left: 18%;
     }
   /* .footer-nav {

@@ -1,7 +1,8 @@
 #message-box {
     margin-top: 5px;
     display: flex;
-    justify-content: right;
+    flex-direction: column;
+    justify-content:space-between;
     padding: 5px 80px 30px 80px;
 }
 
@@ -120,7 +121,7 @@ textarea {
 }
 
 #back-2 img {
-    display: none;
+    width: 100%;
 }
 
 @media (max-width:550px) {

@@ -14,8 +14,7 @@ code {
 }
 
 .back {
-    min-height: 90vh;
-    background-image: url('./assets/enhanced-image.png');
+    min-height: 80vh;
     background-repeat: no-repeat;
     background-position-x: center;
     background-size: contain;
@@ -33,4 +32,8 @@ code {
     .back {
         background-image: unset;
     }
+}
+
+h1{
+    font-weight: bold;
 }

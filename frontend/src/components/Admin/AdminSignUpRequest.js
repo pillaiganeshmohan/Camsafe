@@ -5,12 +5,12 @@ const ApprovalStatus = () => {
     { sr_no: 1, police_station_name: 'Panvel', police_station_code: 'CT00065', user_id: 423 , thana_incharge: 'Ganesh Pillai', status: 'pending' },
     { sr_no: 2, police_station_name: 'Chembur', police_station_code: 'CT00032', user_id: 465, thana_incharge: 'Priyanshi Sharma', status: 'pending' },
     { sr_no: 3, police_station_name: 'CBD', police_station_code: 'CT00145', user_id: 523, thana_incharge: 'Jannat Shaikh', status: 'pending' },
-    { sr_no: 1, police_station_name: 'Panvel', police_station_code: 'CT00065', user_id: 423 , thana_incharge: 'Ganesh Pillai', status: 'pending' },
-    { sr_no: 2, police_station_name: 'Chembur', police_station_code: 'CT00032', user_id: 465, thana_incharge: 'Priyanshi Sharma', status: 'pending' },
-    { sr_no: 3, police_station_name: 'CBD', police_station_code: 'CT00145', user_id: 523, thana_incharge: 'Jannat Shaikh', status: 'pending' },
-    { sr_no: 1, police_station_name: 'Panvel', police_station_code: 'CT00065', user_id: 423 , thana_incharge: 'Ganesh Pillai', status: 'pending' },
-    { sr_no: 2, police_station_name: 'Chembur', police_station_code: 'CT00032', user_id: 465, thana_incharge: 'Priyanshi Sharma', status: 'pending' },
-    { sr_no: 3, police_station_name: 'CBD', police_station_code: 'CT00145', user_id: 523, thana_incharge: 'Jannat Shaikh', status: 'pending' }
+    { sr_no: 4, police_station_name: 'Panvel', police_station_code: 'CT00065', user_id: 423 , thana_incharge: 'Ganesh Pillai', status: 'pending' },
+    { sr_no: 5, police_station_name: 'Chembur', police_station_code: 'CT00032', user_id: 465, thana_incharge: 'Priyanshi Sharma', status: 'pending' },
+    { sr_no: 6, police_station_name: 'CBD', police_station_code: 'CT00145', user_id: 523, thana_incharge: 'Jannat Shaikh', status: 'pending' },
+    { sr_no: 7, police_station_name: 'Panvel', police_station_code: 'CT00065', user_id: 423 , thana_incharge: 'Ganesh Pillai', status: 'pending' },
+    { sr_no: 8, police_station_name: 'Chembur', police_station_code: 'CT00032', user_id: 465, thana_incharge: 'Priyanshi Sharma', status: 'pending' },
+    { sr_no: 9, police_station_name: 'CBD', police_station_code: 'CT00145', user_id: 523, thana_incharge: 'Jannat Shaikh', status: 'pending' }
   ]);
 
   const updateStatus = (sr_no, newStatus) => {

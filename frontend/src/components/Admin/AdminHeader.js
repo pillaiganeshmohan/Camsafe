@@ -29,16 +29,16 @@ function AdminHeader({ toggleDashboard }) {
             <h1 className="h1style1 text-6xl font-extrabold sm:font-semibold sm:text-3xl sm:mr-40 sm:-mb-3 ">ADMIN</h1>
             <ul className="nav-op1 ml-64">
               <li>
-                <a href="https://www.youtube.com/">Home</a>
+                <a href="/">Home</a>
               </li>
               <li>
-                <a href="https://www.youtube.com/">Records</a>
+                <a href="/history">Records</a>
               </li>
               <li>
-                <a href="https://www.youtube.com/">About Us</a>
+                <a href="/about">About Us</a>
               </li>
               <li>
-                <a href="https://www.youtube.com/">Contact Us</a>
+                <a href="/contact">Contact Us</a>
               </li>
             </ul>
           </nav>
@@ -51,18 +51,18 @@ function AdminHeader({ toggleDashboard }) {
                   className="dropbtn1"
                 ></button>
                 <div id="myDropdown" className="dropdown-content1">
-                  <a href="link">Home</a>
-                  <a href="link">Records</a>
-                  <a href="link">About Us</a>
-                  <a href="link4">Contact Us</a>
-                  <a href="#signup">SignUp Request</a>
-                  <a href="#userdetail">User Details</a>
+                  <a href="/" onClick={() => myFunction()}>Home</a>
+                  <a href="/history" onClick={() => myFunction()}>Records</a>
+                  <a href="/about" onClick={() => myFunction()}> About Us</a>
+                  <a href="/contact" onClick={() => myFunction()}>Contact Us</a>
+                  <a href="#signup" onClick={() => myFunction()}> SignUp Request</a>
+                  <a href="#userdetail"  onClick={() => myFunction()}>User Details</a>
                 </div>
               </div>
               <span className="avtar1">
                 <div className="icon1">
                   <a href="link" className="icon_username1">
-                    Pasta Haha
+                    ABC XYZ
                   </a>
                   <img src={image} />
                 </div>

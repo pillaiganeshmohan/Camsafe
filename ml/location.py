@@ -93,7 +93,6 @@ def fetch_address(latitude, longitude):
         response = requests.get(f"https://api.mapbox.com/search/geocode/v6/reverse?longitude={longitude}&latitude={latitude}&access_token=pk.eyJ1IjoiZ2FuZXNobW9oYW5waWxsYWkiLCJhIjoiY2x1d2p3dXV2MGRtZTJrcnl2eWg0Z2JoMSJ9.CS6RjrAg5CCjJBv-2Aqxrw")
         data = response.json()
         address = data['features'][0]['properties']['full_address']
-        print(address)
         return address
     
 

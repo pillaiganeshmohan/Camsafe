@@ -1,3 +1,20 @@
+/* Just added Start*/
+
+.invalidInput {
+    border: 2px solid red;
+}
+
+.validInput {
+    border: 2px solid green;
+}
+
+.defaultInput {
+    border: 2px solid black;
+}
+
+
+/* Just added Ended*/
+
 .mainContainer {
     padding: 10px 0;
     display: flex;
@@ -40,6 +57,7 @@
     height: 98vh;
     flex-direction: column;
 }
+
 .leftDiv2 {
     background-color: white;
     width: 600px;
@@ -118,6 +136,12 @@
     font-weight: bold;
 }
 
+.captcha input {
+    width: 70%;
+    height: 30px;
+    border-radius: 0 8px 8px 0;
+}
+
 .captcha1 {
     display: flex;
     margin-bottom: 2%;
@@ -128,16 +152,24 @@
 }
 
 .captcha1 label {
-    width: 30%;
+    width: 37%;
     background-color: #D9D9D9;
     height: 40px;
     border-radius: 8px 0 0 8px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 2%;
+    padding-left: 0%;
     font-family: Poppins;
     font-weight: bold;
+    margin-top: -0.1%;
+}
+
+.captcha1 input {
+    margin-top: 0%;
+    width: 65%;
+    height: 40px;
+    border-radius: 0 8px 8px 0;
 }
 
 .captcha2 {
@@ -163,6 +195,12 @@
     font-weight: bold;
 }
 
+.captcha2 input {
+    width: 25%;
+    height: 40px;
+    border-radius: 0 8px 8px 0;
+}
+
 .buttonContainer {
     display: flex;
     align-items: center;
@@ -173,7 +211,8 @@
     width: 40%;
     /* height: 55%; */
     display: flex;
-    margin-left: 45%;
+    margin-left: 33%;
+    cursor: pointer;
 }
 
 .reload2 {
@@ -192,7 +231,7 @@
 
 .button_captcha {
     border-style: none !important;
-    height: 10%;
+    /* height: 1%; */
 }
 
 #signUp {
@@ -282,24 +321,6 @@
     border: none;
 }
 
-.captcha input {
-    width: 70%;
-    height: 30px;
-    border-radius: 0 8px 8px 0;
-}
-
-.captcha1 input {
-    width: 70%;
-    height: 40px;
-    border-radius: 0 8px 8px 0;
-}
-
-.captcha2 input {
-    width: 25%;
-    height: 40px;
-    border-radius: 0 8px 8px 0;
-}
-
 .captcha_text {
     width: 50%
 }
@@ -367,6 +388,7 @@
     justify-content: center;
     border: 2px solid;
 }
+
 .formLabel {
     font-weight: bold;
     width: 100%;
@@ -477,8 +499,13 @@
         margin-top: 10%;
     }
     .reload {
-        width: 80%;
+        height: 67%;
+        width: auto;
+        margin-left: 15px;
+    }
+    .captcha1 input {
         margin-left: 10%;
+        width: 50%;
     }
     .leftDiv {
         /* width: 98%; */

@@ -62,7 +62,7 @@ function AdminHeader({ toggleDashboard }) {
               <span className="avtar1">
                 <div className="icon1">
                   <a href="link" className="icon_username1">
-                    ABC XYZ
+                    {localStorage.getItem('Name')?localStorage.getItem('Name'):'Guest'}
                   </a>
                   <img src={image} />
                 </div>

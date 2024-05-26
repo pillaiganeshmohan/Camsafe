@@ -16,9 +16,49 @@ from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import api_view
+from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 
+
+@method_decorator(csrf_exempt, name='dispatch')
+class GenerateOTP(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        if not email:
+            return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        otp = OTP.objects.create(email=email)
+        send_mail(
+            'Your OTP Code',
+            f'Your OTP code is {otp.otp}',
+            'your-email@gmail.com',
+            [email],
+            fail_silently=False,
+        )
+        
+        return Response({'message': 'OTP sent successfully'}, status=status.HTTP_200_OK)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class VerifyOTP(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        otp = request.data.get('otp')
+        
+        if not email or not otp:
+            return Response({'error': 'Email and OTP are required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            otp_record = OTP.objects.get(email=email, otp=otp)
+        except OTP.DoesNotExist:
+            return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if otp_record.is_valid():
+            return Response({'message': 'OTP verified successfully'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'OTP has expired'}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserListCreate(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -170,23 +210,33 @@ class UserActivationAPIView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-# SUBJECT DETAIL  & HISTORY PAGE
 class SubjectDetailsListCreateView(generics.ListCreateAPIView):
-    queryset = SubjectDetails.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return SubjectDetails.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class SubjectDetailsRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = SubjectDetails.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return SubjectDetails.objects.filter(user=self.request.user)
 
 class SubjectViewSet(viewsets.ModelViewSet):
-    queryset = SubjectDetails.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
-        master_front_profile = request.data['master_front_profile']
-        id = request.data['subject_id']
-        SubjectDetails.objects.create(id=id, master_front_profile=master_front_profile)
-        return HttpResponse({'message':'Image Done'}, status = 200)
+    def get_queryset(self):
+        return SubjectDetails.objects.filter(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

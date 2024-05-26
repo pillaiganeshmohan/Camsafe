@@ -5,6 +5,14 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
+class OTPSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OTP
+        fields = ['email', 'otp']
+
+from django.contrib.auth import authenticate
+from rest_framework import serializers
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class MyTokenObtainPairSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -14,6 +22,7 @@ class MyTokenObtainPairSerializer(serializers.Serializer):
         style={'input_type': 'password'}
     )
     token = serializers.CharField(max_length=255, read_only=True)
+    name = serializers.CharField(max_length=255, read_only=True)  # Add name field
 
     def validate(self, attrs):
         email = attrs.get('email')
@@ -40,11 +49,16 @@ class MyTokenObtainPairSerializer(serializers.Serializer):
         user.login_status = True
         user.save(update_fields=['login_status'])
         print("After saving: ", user.login_status)
+        
+        attrs['name'] = f"{user.name}"
         attrs['token'] = {
+            'name': attrs['name'],
             'refresh': str(refresh),
             'access': str(refresh.access_token),
         }
+          # Add the user's name to the response
         return attrs['token']
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,7 +75,8 @@ class UserSerializer(serializers.ModelSerializer):
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = '__all__'
+        fields = ['id', 'name', 'address', 'age', 'gender', 'offence', 'aadhar_no', 'date', 'day', 'longitude', 'latitude', 'image', 'user']
+
 
 class CCTVIdentityMasterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -140,7 +155,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'user_role', 'police_station_code', 'police_station_name', 'state', 'district', 'taluka', 'pin_code', 'location', 'thane_incharge','username')
+        fields = ('email', 'password', 'user_role', 'police_station_code', 'police_station_name', 'state', 'district', 'taluka', 'pin_code', 'location', 'thane_incharge','contact_no','name')
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -154,7 +169,6 @@ class ProImageSerializer(serializers.ModelSerializer):
         model = ProImage
         fields = ['id', 'image']
 
-# ProductSerializer for subjects detail
 class ProductSerializer(serializers.ModelSerializer):
     images = ProImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(
@@ -164,11 +178,19 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubjectDetails
-        fields = ['id', 'name', 'address','age', 'date', 'longitude', 'latitude', 'images','master_front_profile', 'uploaded_images']
+        fields = ['id', 'name', 'address', 'age', 'date', 'longitude', 'latitude', 'images', 'master_front_profile', 'uploaded_images']
 
     def create(self, validated_data):
-        uploaded_images = validated_data.pop('uploaded_images')
+        uploaded_images = validated_data.pop('uploaded_images', [])
         product = SubjectDetails.objects.create(**validated_data)
         for image in uploaded_images:
             ProImage.objects.create(product=product, image=image)
         return product
+
+    def update(self, instance, validated_data):
+        uploaded_images = validated_data.pop('uploaded_images', [])
+        instance = super().update(instance, validated_data)
+        if uploaded_images:
+            for image in uploaded_images:
+                ProImage.objects.create(product=instance, image=image)
+        return instance

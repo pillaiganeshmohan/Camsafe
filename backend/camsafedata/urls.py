@@ -30,7 +30,9 @@ urlpatterns = [
     path('users/<int:pk>/', UserRetrieveUpdateDestroy.as_view(), name='user-retrieve-update-destroy'),
     path('users/register/', UserCreateAPIView.as_view(), name='user_create'),
     path('user-activation/', UserActivationAPIView.as_view(), name='user-activation'),
-
+    
+    path('generate-otp/', GenerateOTP.as_view(), name='generate-otp'),
+    path('verify-otp/', VerifyOTP.as_view(), name='verify-otp'),
 
     # SUBJECT DETAIL VIEW PAGE
     path('subjectdetails/', SubjectDetailsListCreateView.as_view(), name='subject-details-list-create'),

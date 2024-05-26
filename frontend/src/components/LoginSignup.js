@@ -1,16 +1,25 @@
-import React, {useState} from 'react'
-import styles from "./LoginSignup.module.css";
-import loginPhoto from "../assets/loginphoto.png";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styles from './LoginSignup.module.css';
+import loginPhoto from '../assets/loginphoto.png';
 import Button from './Button';
-import loginLogo from "../assets/loginlogo.png"
-import reload from '../assets/restart.png'
-import { Link } from 'react-router-dom';
+import loginLogo from '../assets/loginlogo.png';
+import reload from '../assets/restart.png';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
+
 
 function LoginSignup() {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
     const [captcha, setCaptcha] = useState('');
     const [inputCaptcha, setInputCaptcha] = useState('');
-    const [captchaValid, setCaptchaValid] = useState(true);
+    const [captchaValid, setCaptchaValid] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     // Function to generate random captcha
     const generateCaptcha = () => {
@@ -19,10 +28,10 @@ function LoginSignup() {
         setInputCaptcha(''); // Clear input captcha
         setCaptchaValid(true); // Reset captcha validation
         setFormSubmitted(false); // Reset form submission status
-    }
+    };
 
     // Initial generation of captcha
-    useState(() => {
+    useEffect(() => {
         generateCaptcha();
     }, []);
 
@@ -34,63 +43,118 @@ function LoginSignup() {
         } else {
             setCaptchaValid(false);
         }
-    }
+    };
 
-    const handleSubmit = (e) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (captchaValid) {
-            // Perform form submission
+        if (!captchaValid) {
+            setError('Invalid captcha');
+            return;
+        }
+        else{
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api/login/', formData); 
+            console.log('Server response:', response.data);
             setFormSubmitted(true);
-            // You can put your form submission logic here
+            localStorage.setItem('token', response.data.access);
+            localStorage.setItem('Name', response.data.name)
+            toast.success('User Logged successfully', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            navigate('/history');
+        } catch (error) {
+            toast.error('Login failed. Please check your credentials.', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            console.error('Error submitting form:', error);
         }
     }
+    };
+    
 
-  return (
-    <div className={styles.mainCont}>
-    <div className={styles.mainContainer}>
-        <div className={styles.leftDiv}>
-            <img className={styles.loginPhoto} src={loginPhoto}/>
-        </div>
-        <div className={styles.rightDiv}>
-            <div className={styles.formContainer1}>
-                <label className={styles.logoLabel}>CamSafe</label>
-                <img className={styles.loginLogo} src={loginLogo}/>
-                <label className={styles.logoLabel} id={styles.login}>Login</label>
-                <form className={styles.signUpForm}>
-                    <label className={styles.formLabel}>Email Id</label>
-                    <input className={styles.formInput} type='text' placeholder='xyz@gmail.com'/>
-                    <label className={styles.formLabel}>Password</label>
-                    <input className={styles.formInput} type='password' placeholder='Enter Password'/>
-                    <label className={styles.rememberMe1}>
-                        <input type='checkbox'/>Remember Me
-                    </label>
-                    <div className={styles.captcha1}>
-                        <label className={`w-86 ${!captchaValid ? styles.invalid : styles.valid}`}>
-                            <img src={`https://dummyimage.com/120x40/000/fff&text=${captcha}`} alt="Captcha" className="captcha_img" />
-                            <label type="button" className="button_captcha" onClick={generateCaptcha}>
-                                <img src={reload} className={styles.reload} alt="Reload Captcha"/>
+    return (
+        <div className={styles.mainCont}>
+            <div className={styles.mainContainer}>
+                <div className={styles.leftDiv}>
+                    <img className={styles.loginPhoto} src={loginPhoto} alt="Login" />
+                </div>
+                <div className={styles.rightDiv}>
+                    <div className={styles.formContainer1}>
+                        <label className={styles.logoLabel}>CamSafe</label>
+                        <img className={styles.loginLogo} src={loginLogo} alt="Logo" />
+                        <label className={styles.logoLabel} id={styles.login}>Login</label>
+                        <form className={styles.signUpForm} onSubmit={handleSubmit}>
+                            <label className={styles.formLabel}>Email Id</label>
+                            <input
+                                className={styles.formInput}
+                                type='text'
+                                name='email'
+                                placeholder='xyz@gmail.com'
+                                value={formData.email}
+                                onChange={handleChange}
+                            />
+                            <label className={styles.formLabel}>Password</label>
+                            <input
+                                className={styles.formInput}
+                                type='password'
+                                name='password'
+                                placeholder='Enter Password'
+                                value={formData.password}
+                                onChange={handleChange}
+                            />
+                            <label className={styles.rememberMe1}>
+                                <input type='checkbox' />Remember Me
                             </label>
-                        </label>
-                        <input
-                        type='text'
-                        placeholder='Enter Captcha'
-                        value={inputCaptcha}
-                        onChange={handleInputCaptchaChange}
-                        className={`${styles.formInput} ${!captchaValid ? styles.invalidInput : inputCaptcha && captchaValid ? styles.validInput : styles.defaultInput}`}
-                        />
+                            <div className={styles.captcha1}>
+                                <label className={`w-86 ${!captchaValid ? styles.invalid : styles.valid}`}>
+                                    <img src={`https://dummyimage.com/120x40/000/fff&text=${captcha}`} alt="Captcha" className="captcha_img" />
+                                    <label type="button" className="button_captcha" onClick={generateCaptcha}>
+                                        <img src={reload} className={styles.reload} alt="Reload Captcha" />
+                                    </label>
+                                </label>
+                                <input
+                                    type='text'
+                                    placeholder='Enter Captcha'
+                                    value={inputCaptcha}
+                                    onChange={handleInputCaptchaChange}
+                                    className={`${styles.formInput} ${!captchaValid ? styles.invalidInput : inputCaptcha && captchaValid ? styles.validInput : styles.defaultInput}`}
+                                    required
+                                />
+                            </div>
+                            <Button name="Submit" onClick={handleSubmit} disabled={!captchaValid} />
+                            <br />
+                            {formSubmitted && captchaValid && <p className="text-green-600 text-center mb-3">Logged In successfully!</p>}
+                            {error && <p className="text-red-600 text-center mb-3">{error}</p>}
+                            <label className={styles.noAccount}>Don't Have an Account?</label>
+                            <label className={styles.noAccount1} id={styles.signUp}><Link to="/signup">Signup</Link></label>
+                        </form>
                     </div>
-                    <Button name="Submit" disabled={!captchaValid} />
-                    <br/>
-                    {formSubmitted && captchaValid && <p className="text-green-600 text-center mb-3">Logged In successfully!</p>}
-                    <label className={styles.noAccount}>Don't Have an Account?</label>
-                    <label className={styles.noAccount1} id={styles.signUp}><Link to="/signup">Signup</Link></label>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-    </div>
-
-  )
+    );
 }
 
-export default LoginSignup
+export default LoginSignup;

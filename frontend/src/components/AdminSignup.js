@@ -4,23 +4,27 @@ import loginPhoto from "../assets/loginphoto.png";
 import { Link } from 'react-router-dom';
 import Button from './Button';
 import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
+
 
 function AdminSignup() {
     const [formData, setFormData] = useState({
         name: '',
-        contactNumber: '',
+        user_role:'admin',
+        contact_no: '',
         email: '',
         password: '',
-        policeStationName: '',
-        policeStationCode: '',
-        thanaIncharge: '',
+        police_station_code: '',
+        thane_incharge: '',
         location: '',
-        pinCode: '',
+        pin_code: '',
         state: '',
         district: '',
         taluka: '',
         agreedToTerms: false
     });
+    const navigate = useNavigate()
 
     const [otp, setOtp] = useState('');
     const [otpSent, setOtpSent] = useState(false);
@@ -39,42 +43,63 @@ function AdminSignup() {
         }
     }, [otpSent, timeLeft]);
 
-    const generateOtp = () => {
-        // Check if all required fields are filled
-        const requiredFields = ['name', 'contactNumber', 'email', 'password', 'reEnterPassword', 'location', 'pinCode', 'state', 'district', 'taluka', 'thanaIncharge', 'policeStationCode'];
+    const generateOtp = async () => {
+        const requiredFields = ['name', 'contact_no', 'email', 'password', 'reEnterPassword', 'police_station_code'];
         const missingField = requiredFields.filter(field => !formData[field]);
 
-         // If any required field is missing, show alert and return
         if (missingField.length > 0) {
-            alert(`Please fill the following field: ${missingField.join(', ')}`);
+            alert(`Please fill the following fields: ${missingField.join(', ')}`);
             return;
         }
 
-        // generate Otp logic
-        const generatedOtp = Math.floor(1000 + Math.random() * 9000);
-        console.log("Otp Generated:", generatedOtp)
-
-        // Simulate sending OTP via email (you would use your actual email sending logic here)
-        // For demonstration purposes, just logging OTP to console
-        console.log("OTP sent to email.");
-
-        setOtpSent(true);
-        setResendDisabled(true);
-    };
-
-    const verifyOtp = () => {
-        // Verify OTP logic here
-        // For demonstration purposes, just checking if entered OTP matches a predefined value
-        if (otp === '1234') {
-            setOtpVerified(true);
+        if (formData.password !== formData.reEnterPassword) {
+            alert("Passwords do not match");
+            return;
         }
-        else {
-            alert('Incorrect OTP. Please try again.');
+
+        try {
+            const response = await axios.post(`http://127.0.0.1:8000/api/generate-otp/`, { email: formData.email });
+            setOtpSent(true);
+            setResendDisabled(true);
+            toast.success('OTP sent successfully', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            console.log("OTP sent successfully", response.data);
+        } catch (error) {
+            console.log("Error sending OTP", error);
+        }
+    };
+  
+
+    const verifyOtp = async () => {
+        try {
+            const response = await axios.post(`http://127.0.0.1:8000/api/verify-otp/`, { email: formData.email, otp: otp });
+
+                setOtpVerified(true);
+                toast.success('OTP verified successfully', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+            
+        } catch (error) {
+            console.log("Error verifying OTP", error);
         }
     };
 
     const handleResendClick = () => {
-        // Reset timer and send OTP again
         setTimeLeft(120);
         generateOtp();
     };
@@ -88,22 +113,37 @@ function AdminSignup() {
         }));
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         console.log('Form submitted:', formData);
-    //         // Assuming you have a backend API endpoint for form submission
-    //         const response = axios.post('http://127.0.0.1:8000/api/admin-identity/', formData);
-    //         console.log('Server response:', response.data);
-    //         // Set OTP sent status to true
-    //         setOtpSent(true);
-
-    //       } catch (error) {
-    //         console.error('Error submitting form:', error);
-    //       }
-    //     console.log(formData); // For testing, log the formData
-    //     // You can use Axios or fetch to send formData to your backend
-    // };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // Submit form data to backend
+        try {
+            const response = await axios.post(`http://127.0.0.1:8000/api/users/register/`, formData);
+            console.log('Form submitted successfully', response.data);
+            toast.success('User Registered successfully', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            navigate('/login')  
+        } catch (error) {
+            console.error('Error submitting form', error);
+            toast.error('Error submitting form', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+        }
+    };
 
     return (
         <div className={styles.mainContainer}>
@@ -130,8 +170,8 @@ function AdminSignup() {
                             <input
                                 className={styles.formInput4}
                                 type='text'
-                                name='contactNumber'
-                                value={formData.contactNumber}
+                                name='contact_no'
+                                value={formData.contact_no}
                                 onChange={handleChange}
                                 placeholder='XXXXX-XXXXX'
                             />
@@ -184,8 +224,8 @@ function AdminSignup() {
                             <input
                                 className={styles.formInput4}
                                 type='text'
-                                name='pinCode'
-                                value={formData.pinCode}
+                                name='pin_code'
+                                value={formData.pin_code}
                                 onChange={handleChange}
                                 placeholder='Pin Code'
                             />
@@ -227,8 +267,8 @@ function AdminSignup() {
                         <input
                             className={styles.formInput2}
                             type='text'
-                            name='thanaIncharge'
-                            value={formData.thanaIncharge}
+                            name='thane_incharge'
+                            value={formData.thane_incharge}
                             onChange={handleChange}
                             placeholder='Enter the name of Thana Incharge'
                         />
@@ -241,8 +281,8 @@ function AdminSignup() {
                             <input
                                 className={styles.formInput4}
                                 type='text'
-                                name='policeStationCode'
-                                value={formData.policeStationCode}
+                                name='police_station_code'
+                                value={formData.police_station_code}
                                 onChange={handleChange}
                                 placeholder='Police Station Code'
                             />
@@ -280,7 +320,7 @@ function AdminSignup() {
                             </div>
                         )}
                         {otpVerified && (
-                            <Button name="Submit" onClick={undefined} />
+                            <Button name="Submit" onClick={handleSubmit} />
                         )}
                         <br/>
                         <label className={styles.account}>Already Have an Account?</label>

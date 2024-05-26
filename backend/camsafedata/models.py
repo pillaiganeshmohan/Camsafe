@@ -2,6 +2,23 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.core.exceptions import ValidationError
 import uuid,os
+from django.utils import timezone
+import random
+from django.conf import settings
+
+
+class OTP(models.Model):
+    email = models.EmailField()
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.otp:
+            self.otp = str(random.randint(100000, 999999))
+        super().save(*args, **kwargs)
+
+    def is_valid(self):
+        return self.created_at >= timezone.now() - timezone.timedelta(minutes=10)
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, user_role='user', **extra_fields):
@@ -25,15 +42,18 @@ class User(AbstractUser):
     email = models.CharField(max_length=100, unique=True)
     is_active = models.BooleanField(default=True)
     user_role = models.CharField(max_length=100, choices=[('user', 'User'), ('admin', 'Admin')], default='user')
-    police_station_code = models.CharField(max_length=100)
-    police_station_name = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    district = models.CharField(max_length=100)
-    taluka = models.CharField(max_length=100)
-    pin_code = models.CharField(max_length=100)
-    location = models.CharField(max_length=255)
-    thane_incharge = models.CharField(max_length=255)
+    police_station_code = models.CharField(max_length=100, null=True)
+    police_station_name = models.CharField(max_length=100, null=True)
+    state = models.CharField(max_length=100, null=True)
+    district = models.CharField(max_length=100, null=True)
+    taluka = models.CharField(max_length=100, null=True)
+    pin_code = models.CharField(max_length=100, null=True)
+    location = models.CharField(max_length=255, null=True)
+    thane_incharge = models.CharField(max_length=255, null=True)
     login_status = models.BooleanField(default=False)
+    username = f"{email}-{user_role}"
+    name = models.CharField(max_length=100, null=True)
+    contact_no = models.IntegerField(null=True)
     
     class Meta:
         verbose_name = 'user'
@@ -59,21 +79,30 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.email
 
-
+def upload_path(instance, filename):
+    return os.path.join('master_front_profile', str(instance.id), filename)
 
 class Subject(models.Model):
-    SI_subject_id = models.IntegerField(primary_key=True)
-    SI_subject_name = models.CharField(max_length=50)
-    SI_subject_address = models.CharField(max_length=200)
-    SI_subject_age = models.IntegerField()
-    SI_subject_gender = models.CharField(max_length=10)
-    SI_subject_offence = models.CharField(max_length=100)
-    SI_front_profile = models.CharField(max_length=1000)
-    SI_left_profile = models.CharField(max_length=1000)
-    SI_right_profile = models.CharField(max_length=1000)
-    SI_iris = models.CharField(max_length=1000)
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    address = models.CharField(max_length=200)
+    age = models.IntegerField()
+    aadhar_no = models.BigIntegerField(null=True, default=None)
+    date = models.DateField(null=True)
+    day = models.CharField(max_length=20, null=True)
+    longitude = models.CharField(max_length=30,null=True)
+    latitude = models.CharField(max_length=30,null=True)
+    image = models.ImageField(upload_to = 'img',  blank = True, null=True, default='')
+    master_front_profile = models.ImageField(upload_to=upload_path, blank=True, null=True)
+    gender = models.CharField(max_length=10)
+    offence = models.CharField(max_length=100)
+    front_profile = models.CharField(max_length=1000)
+    left_profile = models.CharField(max_length=1000)
+    right_profile = models.CharField(max_length=1000)
+    iris = models.CharField(max_length=1000)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
-        return f"{self.SI_subject_id}-{self.SI_subject_name}"
+        return f"{self.id}-{self.name}"
 
 class SubjectHistory(models.Model):
     SH_subject_id = models.IntegerField(primary_key=True)
@@ -205,7 +234,9 @@ class SubjectDetails(models.Model):
     latitude = models.CharField(max_length=30)
     image = models.ImageField(upload_to = 'img',  blank = True, null=True, default='')
     master_front_profile = models.ImageField(upload_to=upload_path, blank=True, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
+ 
     def __str__(self):
         return self.name
 

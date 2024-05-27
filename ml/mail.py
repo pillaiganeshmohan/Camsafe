@@ -12,7 +12,7 @@ def fetch_recipient_emails():
         if response.status_code == 200:
             recipients_data = response.json()
             # Filter to get only admin users
-            admin_emails = [user['email'] for user in recipients_data]
+            admin_emails = [user['email'] for user in recipients_data if user['user_role'] == 'admin']
             return admin_emails
         else:
             print("Failed to fetch recipients from API", response.status_code)

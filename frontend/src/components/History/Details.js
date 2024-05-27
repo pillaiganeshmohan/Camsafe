@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import HistoryHeader from "./HistoryHeader";
 import Footer from "../Footer";
 import DetailMaster from "./Detailsimg"
@@ -6,7 +7,9 @@ import DetailGallery from "./Detailsgallery"
 import detail_bg from "../../assets/Detailed_View.png"
 import Button from "../Button";
 
+
 export default function Details() {
+  const navigate = useNavigate()
   return (
     <div id="detail_page">
       <HistoryHeader />
@@ -15,8 +18,12 @@ export default function Details() {
       <label className="p-5 text-4xl text-center mt-20"><b>Detailed View</b></label>
         <table>
           <thead className="flex justify-evenly z-10 sm:justify-center sm:gap-28">
-            <th><DetailMaster/></th>
-            <th><DetailGallery/></th>
+            <th>
+              <DetailMaster />
+            </th>
+            <th>
+              <DetailGallery />
+            </th>
           </thead>
           </table>
           <div className="flex flex-col justify-center items-center sm:w-full">
@@ -56,7 +63,7 @@ export default function Details() {
               <label className="font-bold w-1/4 sm:w-1/2">Percentage(%)</label>
               <label className="w-1/4 sm:w-1/3">70</label>
             </div>
-            <a href="/history" className="-z-10 m-5"><Button name="Back"/></a>
+            <Button name="Back" onClick={() => {navigate(-1)}} />
           </div>
       </div>
     </div>

@@ -1,16 +1,17 @@
 /* Just added Start*/
 
 .invalidInput {
-    border: 2px solid red;
+    border: 2px solid black;
 }
 
 .validInput {
     border: 2px solid green;
 }
 
-.defaultInput {
+
+/* .defaultInput {
     border: 2px solid black;
-}
+} */
 
 
 /* Just added Ended*/

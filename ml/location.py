@@ -30,7 +30,7 @@ def fetch_camera_details():
 def fetch_geolocation(ip_address):
     try:
 
-        api_key = "e4b359601b5645619d9e8853147eebed"  # Remove spaces
+        api_key = "1c6b0140cdc44c4da9ae5ec30bc47e58"  # Remove spaces
         res = requests.get(f'https://api.ipgeolocation.io/ipgeo?apiKey={api_key}&ip={ip_address}')
         data = res.json()
         
@@ -41,7 +41,7 @@ def fetch_geolocation(ip_address):
 
 def fetch_address(latitude, longitude):
     try:
-        response = requests.get(f"https://api.mapbox.com/search/geocode/v6/reverse?longitude={longitude}&latitude={latitude}&access_token=pk.eyJ1IjoiZ2FuZXNobW9oYW5waWxsYWkiLCJhIjoiY2x1d2p3dXV2MGRtZTJrcnl2eWg0Z2JoMSJ9.CS6RjrAg5CCjJBv-2Aqxrw")
+        response = requests.get(f"https://api.mapbox.com/search/geocode/v6/reverse?longitude={longitude}&latitude={latitude}&access_token=pk.eyJ1IjoiZ2FuZXNobW9oYW5waWxsYWkiLCJhIjoiY2x3cTF3c3hnMGprMjJscDF5Zm9hYnJmeCJ9.KM97W9GypZJ5C5oNtYcc5A")
         data = response.json()
         address = data['features'][0]['properties']['full_address']
         return address

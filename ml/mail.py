@@ -12,7 +12,7 @@ def fetch_recipient_emails():
         if response.status_code == 200:
             recipients_data = response.json()
             # Filter to get only admin users
-            admin_emails = [user['email'] for user in recipients_data]
+            admin_emails = [user['email'] for user in recipients_data if user['user_role'] == 'admin']
             return admin_emails
         else:
             print("Failed to fetch recipients from API", response.status_code)
@@ -39,7 +39,10 @@ def send_email_with_attachment(receiver, subject, body, attachment_path):
 
 def send_email_with_location(receiver, subject, body, attachment_path, camera_details):
     # Append camera details to the email body
-    body_with_location = f"{body}\n\nCamera Details:\n{camera_details}"
+    details = "http://localhost:3000/history"
+
+    body_with_location = f"{body}\n Subject Details:\n{details}"
+    #f"{body}\n\nCamera Details:\n{camera_details}"
     
     # Mail information
     yag = yagmail.SMTP("camsafepasta@gmail.com", "mhca bbyy jqfc sabo")
@@ -49,7 +52,7 @@ def send_email_with_location(receiver, subject, body, attachment_path, camera_de
         to=receiver,
         subject=subject,
         contents=body_with_location,
-        attachments=[attachment_path]
+        #attachments=[attachment_path]
     )
 
     print("Email with location Sent!")

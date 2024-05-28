@@ -8,7 +8,6 @@ import loginLogo from '../assets/loginlogo.png';
 import reload from '../assets/restart.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 function LoginSignup() {
     const [formData, setFormData] = useState({
@@ -157,7 +156,6 @@ function LoginSignup() {
                     </div>
                 </div>
             </div>
-            <ToastContainer />
         </div>
     );
 }

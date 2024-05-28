@@ -6,6 +6,10 @@ const images = [
   // Add more images as needed
 ];
 
+function setSlides(fetchedSlides: any) {
+  throw new Error("Function not implemented.");
+}
+
 const Detailsimg = () => {
   const [modalOpen, setModalOpen] = useState(false);
 

@@ -8,6 +8,9 @@ import { GrGallery } from "react-icons/gr";
 //   { id: 1, src: require("../../assets/Ankit.jpg"), alt: "Ankit" },
 //   // Add more images as needed
 // ];
+function setSlides(fetchedSlides: any) {
+  throw new Error("Function not implemented.");
+}   
 
 const Detailsgallery = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -29,8 +32,8 @@ const Detailsgallery = () => {
         const data = response.data;
         setResponseData(response.data)
         if (data.length > 0) {
-          const fetchedSlides = data[0].images.map(img => ({
-            url: img.image,
+          const fetchedSlides = data[0]?.images?.map(img => ({
+            url: img?.image,
             title: '', // You can set title if needed, e.g., data[0].name
           }));
           setSlides(fetchedSlides);

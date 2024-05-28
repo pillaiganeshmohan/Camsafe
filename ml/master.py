@@ -39,7 +39,7 @@ def recognize_user(model, recipient_emails):
                 subject_id = label
 
                 if subject_id in last_recognition_time:
-                    if datetime.now() - last_recognition_time[subject_id] < timedelta(minutes=30):
+                    if datetime.now() - last_recognition_time[subject_id] < timedelta(minutes=15):
                         continue  # Skip sending email if less than 1 hour has passed
 
                 # Fetch user details using ID
@@ -85,12 +85,12 @@ def recognize_user(model, recipient_emails):
     video_capture.release()
     cv2.destroyAllWindows()
 
-def send_email_with_details(recipient_emails, subject_id, subject_name, subject_gender, subject_age, subject_aadhar, image_path):
+def send_email_with_details(recipient_emails, subject_id, subject_name, subject_gender, subject_age, subject_aadhar,image_path):
     for recipient_email in recipient_emails:
         send_email_with_attachment(recipient_email, "Subject Recognition Alert",
-                                   f"Subject recognized:\nID: {subject_id}\nName: {subject_name}\n"
-                                   f"Gender: {subject_gender}\nAge: {subject_age}\n"
-                                   f"Aadhar: {subject_aadhar}", image_path)
+                                   f"Subject recognized:\nID: {subject_id}\nName: {subject_name}\n", image_path)
+                                #    f"Gender: {subject_gender}\nAge: {subject_age}\n"
+                                #    f"Aadhar: {subject_aadhar}", image_path)
 
 if __name__ == "__main__":
     # Load the trained face recognition model

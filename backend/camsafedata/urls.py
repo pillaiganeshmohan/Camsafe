@@ -37,6 +37,7 @@ urlpatterns = [
     # SUBJECT DETAIL VIEW PAGE
     path('subjectdetails/', SubjectDetailsListCreateView.as_view(), name='subject-details-list-create'),
     path('subjectdetails/<uuid:pk>/', SubjectDetailsRetrieveUpdateDestroyView.as_view(), name='subject-details-retrieve-update-destroy'),
+    path('update-subject-details/<uuid:pk>/', SubjectDetailsRetrieveUpdateDestroyView.as_view(), name='subject-details-detail'),
     path('logout/', UserLogoutAPIView.as_view(), name='user-logout'),
 ]
 

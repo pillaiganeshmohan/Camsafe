@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useMediaQuery } from 'react-responsive';
-import axios from 'axios';
 import ImageSlider from './ImageSlider';
 
-function Gallery() {
-  const [slides, setSlides] = useState([]);
+const Gallery = ({ images }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
   const containerStyles = {
@@ -12,30 +10,12 @@ function Gallery() {
     height: isMobile ? '250px' : '500px',
     margin: 'auto',
   };
-  const token = localStorage.getItem('token')
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/api/subjectdetails', {
-          headers: {
-            'Authorization': `Bearer ${token}`, // replace with your actual token
-          },
-        });
-        const data = response.data;
-        if (data.length > 0) {
-          const fetchedSlides = data[0].images.map(img => ({
-            url: img.image,
-            title: '', // You can set title if needed, e.g., data[0].name
-          }));
-          setSlides(fetchedSlides);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
 
-    fetchData();
-  }, []);
+  // Reverse the received array and map it to the required format
+  const slides = images.slice().reverse().map(img => ({
+    url: img.src,
+    title: img.alt || 'Unknown', // Use alt text as title if available
+  }));
 
   return (
     <div className='mt-14'>
@@ -44,6 +24,6 @@ function Gallery() {
       </div>
     </div>
   );
-}
+};
 
 export default Gallery;

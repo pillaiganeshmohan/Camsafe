@@ -49,7 +49,7 @@ def extract_face_encodings(data_dir):
             continue
 
         try:
-            subject_id = int(label.split('-')[0])
+            subject_id, aadhar_no = label.split('-')  # Assuming subject ID and Aadhar number are separated by '-'
         except ValueError as e:
             logging.warning(f"Skipping label {label}: {e}")
             continue
@@ -70,9 +70,12 @@ def extract_face_encodings(data_dir):
             for (x, y, w, h) in faces:
                 face_roi = augmented_image[y:y+h, x:x+w]
                 face_encodings.append(face_roi)
-                labels.append(subject_id)
+                labels.append((subject_id, aadhar_no))
+
+                # If face detected, upload the image to SubjectDetails API
 
     return face_encodings, labels
+
 
 def train_face_recognition_model(data_dir):
     face_encodings, labels = extract_face_encodings(data_dir)

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 const slideStyles = {
@@ -91,8 +91,10 @@ const ImageSlider = ({ slides = [] }) => {
           </div>
         ))}
       </div>
-    </div>
+    </div>  
   );
 };
 
-export default ImageSlider;
+
+
+export default ImageSlider

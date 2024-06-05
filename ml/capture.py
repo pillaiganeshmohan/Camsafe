@@ -6,6 +6,9 @@ import os
 import json
 from PIL import Image, ImageTk
 import shutil
+import requests
+
+
 
 class camS:
     def __init__(self, root):
@@ -18,7 +21,9 @@ class camS:
         self.subject_id_var = tk.StringVar()
         self.subject_gender_var = tk.StringVar()
         self.subject_age_var = tk.StringVar()
-        self.subject_aadhar_var = tk.StringVar()
+        self.subject_aadhar_no_var = tk.StringVar()
+        self.subject_latitude_var = tk.StringVar()
+        self.subject_longitude_var = tk.StringVar()
         self.subject_image_paths = []
 
         # Create GUI components
@@ -49,6 +54,9 @@ class camS:
         self.delete_user_frame = None
         self.show_users_frame = None
 
+        # Dictionary to hold user checkboxes
+        self.user_checkboxes = {}
+
     def show_new_user_options(self):
         self.hide_menu()
         self.new_user_frame = tk.Frame(self.root)
@@ -59,7 +67,9 @@ class camS:
         self.create_input_field(self.new_user_frame, "Enter ID:", self.subject_id_var)
         self.create_input_field(self.new_user_frame, "Select Gender:", self.subject_gender_var, is_radio=True)
         self.create_input_field(self.new_user_frame, "Enter Age:", self.subject_age_var)
-        self.create_input_field(self.new_user_frame, "Enter Aadhar Number:", self.subject_aadhar_var)
+        self.create_input_field(self.new_user_frame, "Enter aadhar_no Number:", self.subject_aadhar_no_var)
+        self.create_input_field(self.new_user_frame, "Enter Latitude:", self.subject_latitude_var)
+        self.create_input_field(self.new_user_frame, "Enter Longitude:", self.subject_longitude_var)
 
         self.browse_button = tk.Button(self.new_user_frame, text="Browse Image(s)", command=self.browse_image)
         self.browse_button.pack()
@@ -80,7 +90,9 @@ class camS:
         self.create_input_field(self.update_user_frame, "Enter ID:", self.subject_id_var)
         self.create_input_field(self.update_user_frame, "Select Gender:", self.subject_gender_var, is_radio=True)
         self.create_input_field(self.update_user_frame, "Enter Age:", self.subject_age_var)
-        self.create_input_field(self.update_user_frame, "Enter Aadhar Number:", self.subject_aadhar_var)
+        self.create_input_field(self.update_user_frame, "Enter aadhar_no Number:", self.subject_aadhar_no_var)
+        self.create_input_field(self.update_user_frame, "Enter Latitude:", self.subject_latitude_var)
+        self.create_input_field(self.update_user_frame, "Enter Longitude:", self.subject_longitude_var)
 
         self.browse_button = tk.Button(self.update_user_frame, text="Browse Image(s)", command=self.browse_image)
         self.browse_button.pack()
@@ -98,7 +110,6 @@ class camS:
         self.delete_user_frame.pack()
 
         # Delete user input fields
-        # Display list of users with checkboxes
         user_data_dir = "user_data"
         if os.path.exists(user_data_dir):
             user_ids = [folder_name.split("-")[0] for folder_name in os.listdir(user_data_dir) if os.path.isdir(os.path.join(user_data_dir, folder_name))]
@@ -116,23 +127,19 @@ class camS:
         back_button.pack()
 
     def delete_users(self):
-        # Get the selected user IDs for deletion
-        selected_users = [user_id for user_id, checkbox in self.user_checkboxes.items() if checkbox.get() == 1]
+        selected_users = [user_id for user_id, checkbox in self.user_checkboxes.items() if checkbox.var.get() == 1]
 
-        # Delete user folders and data
         user_data_dir = "user_data"
         for user_id in selected_users:
             user_folder_path = os.path.join(user_data_dir, f"{user_id}-{self.get_user_name(user_id)}")
             shutil.rmtree(user_folder_path)
 
         messagebox.showinfo("Success", "Selected users have been deleted.")
-
-        # Refresh the delete user frame
         self.show_delete_user_options()
 
     def get_user_name(self, user_id):
         user_data_dir = "user_data"
-        details_path = os.path.join(user_data_dir, f"{user_id}-", "details.json")
+        details_path = os.path.join(user_data_dir, f"{user_id}", "details.json")
         if os.path.exists(details_path):
             with open(details_path, "r") as json_file:
                 data = json.load(json_file)
@@ -144,13 +151,13 @@ class camS:
         self.show_users_frame = tk.Frame(self.root)
         self.show_users_frame.pack()
 
-        # Display list of users
         user_data_dir = "user_data"
         if os.path.exists(user_data_dir):
             user_ids = [folder_name.split("-")[0] for folder_name in os.listdir(user_data_dir) if os.path.isdir(os.path.join(user_data_dir, folder_name))]
             for user_id in user_ids:
-                label = tk.Label(self.show_users_frame, text=f"{user_id} - {self.get_user_name(user_id)}")
-                label.pack()
+                user_name = self.get_user_name(user_id)
+                label = tk.Label(self.show_users_frame, text=f"{user_id} - {user_name}")
+                label.pack(anchor=tk.W)
 
         # Back button
         back_button = tk.Button(self.show_users_frame, text="Back", command=self.show_menu)
@@ -158,8 +165,6 @@ class camS:
 
     def hide_menu(self):
         self.menu_frame.pack_forget()
-
-    def show_menu(self):
         if self.new_user_frame:
             self.new_user_frame.pack_forget()
         if self.update_user_frame:
@@ -168,7 +173,17 @@ class camS:
             self.delete_user_frame.pack_forget()
         if self.show_users_frame:
             self.show_users_frame.pack_forget()
+
+    def show_menu(self):
         self.menu_frame.pack()
+        if self.new_user_frame:
+            self.new_user_frame.pack_forget()
+        if self.update_user_frame:
+            self.update_user_frame.pack_forget()
+        if self.delete_user_frame:
+            self.delete_user_frame.pack_forget()
+        if self.show_users_frame:
+            self.show_users_frame.pack_forget()
 
     def create_input_field(self, parent_frame, label_text, text_variable, is_radio=False):
         label = tk.Label(parent_frame, text=label_text)
@@ -194,7 +209,11 @@ class camS:
             elif label_text == "Enter Age:":
                 entry.config(validate="key", validatecommand=(self.root.register(self.validate_age), "%P"))
             elif label_text == "Enter Aadhar Number:":
-                entry.config(validate="key", validatecommand=(self.root.register(self.validate_aadhar), "%P"))
+                entry.config(validate="key", validatecommand=(self.root.register(self.validate_aadhar_no), "%P"))
+            elif label_text == "Enter Latitude:":
+                entry.config(validate="key", validatecommand=(self.root.register(self.validate_lat_lon), "%P"))
+            elif label_text == "Enter Longitude:":
+                entry.config(validate="key", validatecommand=(self.root.register(self.validate_lat_lon), "%P"))
 
     def validate_name(self, name):
         return all(x.isalpha() or x.isspace() for x in name)
@@ -205,8 +224,15 @@ class camS:
     def validate_age(self, age):
         return age.isdigit() and len(age) <= 3
 
-    def validate_aadhar(self, aadhar):
-        return aadhar.isdigit() and len(aadhar) <= 12
+    def validate_aadhar_no(self, aadhar_no):
+        return aadhar_no.isdigit() and len(aadhar_no) <= 12
+
+    def validate_lat_lon(self, value):
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
 
     def capture_image(self):
         ret, frame = self.video_capture.read()
@@ -218,7 +244,6 @@ class camS:
         file_paths = filedialog.askopenfilenames(title="Select Image Files", filetypes=[("Image files", "*.jpg;*.jpeg;*.png")])
         if file_paths:
             self.subject_image_paths = list(file_paths)
-            # Display the first image
             self.subject_image_path = self.subject_image_paths[0]
             image = Image.open(self.subject_image_path)
             self.current_frame = ImageTk.PhotoImage(image)
@@ -232,82 +257,138 @@ class camS:
         subject_id = self.subject_id_var.get()
         subject_gender = self.subject_gender_var.get()
         subject_age = self.subject_age_var.get()
-        subject_aadhar = self.subject_aadhar_var.get()
+        subject_aadhar_no = self.subject_aadhar_no_var.get()
+        subject_latitude = self.subject_latitude_var.get()
+        subject_longitude = self.subject_longitude_var.get()
 
-        # Ensure all fields are filled
-        if not all([subject_name, subject_id, subject_gender, subject_age, subject_aadhar, self.subject_image_paths]):
+        if not all([subject_name, subject_id, subject_gender, subject_age, subject_aadhar_no, subject_latitude, subject_longitude, self.subject_image_paths]):
             messagebox.showerror("Error", "Please fill in all fields.")
             return
 
-        # Create a directory with the ID as its name
         folder_path = os.path.join("user_data", subject_id)
         os.makedirs(folder_path, exist_ok=True)
 
-        # Save images to the folder
+        image_urls = []
         for i, image_path in enumerate(self.subject_image_paths):
             image = face_recognition.load_image_file(image_path)
-            cv2.imwrite(os.path.join(folder_path, f"image_{i}.jpg"), cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
+            image_filename = f"image_{i}.jpg"
+            image_save_path = os.path.join(folder_path, image_filename)
+            cv2.imwrite(image_save_path, cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
+            image_urls.append(image_save_path)
 
-        # Save user details to a JSON file
         data = {
             "name": subject_name,
             "id": subject_id,
             "gender": subject_gender,
             "age": subject_age,
-            "aadhar": subject_aadhar
+            "aadhar_no": subject_aadhar_no,
+            "latitude": subject_latitude,
+            "longitude": subject_longitude,
         }
         json_path = os.path.join(folder_path, "details.json")
         with open(json_path, "w") as json_file:
             json.dump(data, json_file)
 
-        messagebox.showinfo("Success", "Subject data saved successfully!")
+        api_url = "http://127.0.0.1:8000/api/subjectdetails/"
+        try:
+            files = [("uploaded_images", open(image_path, "rb")) for image_path in self.subject_image_paths]
+            response = requests.post(api_url, data=data, files=files)
+            if response.status_code == 201:
+                messagebox.showinfo("Success", "Subject data saved successfully!")
+            else:
+                messagebox.showerror("Error", f"Failed to save data to the server: {response.text}")
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred: {e}")
 
     def update_data(self):
         subject_id = self.subject_id_var.get()
         subject_gender = self.subject_gender_var.get()
         subject_age = self.subject_age_var.get()
-        subject_aadhar = self.subject_aadhar_var.get()
+        subject_aadhar_no = self.subject_aadhar_no_var.get()
+        subject_latitude = self.subject_latitude_var.get()
+        subject_longitude = self.subject_longitude_var.get()
 
-        # Ensure all fields are filled
-        if not all([subject_id, subject_gender, subject_age, subject_aadhar, self.subject_image_paths]):
+        if not all([subject_id, subject_gender, subject_age, subject_aadhar_no, subject_latitude, subject_longitude, self.subject_image_paths]):
             messagebox.showerror("Error", "Please fill in all fields.")
             return
 
-        # Check if the user exists
         user_data_dir = "user_data"
         if not os.path.exists(os.path.join(user_data_dir, subject_id)):
             messagebox.showerror("Error", f"User with ID {subject_id} does not exist.")
             return
 
-        # Remove existing images
         existing_images = os.listdir(os.path.join(user_data_dir, subject_id))
         for image_file in existing_images:
             if image_file.startswith("image_"):
                 os.remove(os.path.join(user_data_dir, subject_id, image_file))
 
-        # Save new images to the user folder
+        image_urls = []
         for i, image_path in enumerate(self.subject_image_paths):
             image = face_recognition.load_image_file(image_path)
-            cv2.imwrite(os.path.join(user_data_dir, subject_id, f"image_{i}.jpg"), cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
+            image_filename = f"image_{i}.jpg"
+            image_save_path = os.path.join(user_data_dir, subject_id, image_filename)
+            cv2.imwrite(image_save_path, cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
+            image_urls.append(image_save_path)
 
-        # Update user details in the JSON file
         details_path = os.path.join(user_data_dir, subject_id, "details.json")
         with open(details_path, "r") as details_file:
             user_details = json.load(details_file)
             user_details["gender"] = subject_gender
             user_details["age"] = subject_age
-            user_details["aadhar"] = subject_aadhar
+            user_details["aadhar_no"] = subject_aadhar_no
+            user_details["latitude"] = subject_latitude
+            user_details["longitude"] = subject_longitude
 
         with open(details_path, "w") as details_file:
             json.dump(user_details, details_file)
 
-        messagebox.showinfo("Success", "User data updated successfully!")
+        api_url = f"http://127.0.0.1:8000/api/subjectdetails/{subject_id}/"
+        try:
+            files = [("uploaded_images", open(image_path, "rb")) for image_path in self.subject_image_paths]
+            response = requests.put(api_url, data=user_details, files=files)
+            if response.status_code == 200:
+                messagebox.showinfo("Success", "User data updated successfully!")
+            else:
+                messagebox.showerror("Error", f"Failed to update data to the server: {response.text}")
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred: {e}")
 
     def quit_app(self):
         self.video_capture.release()
         self.root.destroy()
 
+
+import threading
+
+
+def poll_new_data():
+    api_url = "http://127.0.0.1:8000/api/subjectdetails/"
+    try:
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            data = response.json()
+            for item in data:
+                folder_path = os.path.join("user_data", item['id'])
+                os.makedirs(folder_path, exist_ok=True)
+                json_path = os.path.join(folder_path, "details.json")
+                with open(json_path, "w") as json_file:
+                    json.dump(item, json_file)
+
+                for image_url in item.get('image_urls', []):
+                    image_response = requests.get(image_url, stream=True)
+                    if image_response.status_code == 200:
+                        image_path = os.path.join(folder_path, os.path.basename(image_url))
+                        with open(image_path, "wb") as image_file:
+                            shutil.copyfileobj(image_response.raw, image_file)
+
+    except Exception as e:
+        print(f"Error while polling new data: {e}")
+
+    threading.Timer(10.0, poll_new_data).start()
+
+
 if __name__ == "__main__":
     root = tk.Tk()
     app = camS(root)
+    poll_new_data()
     root.mainloop()

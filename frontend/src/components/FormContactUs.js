@@ -124,7 +124,7 @@
           <p className="form-error">Please enter your Message</p>
         ) : null}
 
-        <Button name="Submit"/>
+        <Button name="Submit" onClick={handleSubmit}/>
  
       </form>
     </div>

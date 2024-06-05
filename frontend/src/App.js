@@ -1,5 +1,5 @@
-import "./style.css";
 import React from "react";
+import "./style.css";
 import Header from "./components/Header";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
@@ -14,26 +14,26 @@ import Detail from "./components/History/Details";
 import AdminMain from "./components/Admin/AdminMain.js";
 import 'react-toastify/dist/ReactToastify.css';
 
-
 function App() {
   return (
     <Router>
       <div className="App">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"    />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <Routes>
           <Route path="/header" element={<Header />} />
           <Route path="/history" element={<History />} />
-          <Route path="/detailed-view" element={<Detail />} />
+          <Route path="/detailed-view/:id" element={<Detail />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/" element={<Home />} />

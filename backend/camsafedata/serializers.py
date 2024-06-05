@@ -164,10 +164,15 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 # SUBJECT DETAIL VIEW & HISTORY PAGE
+ 
 class ProImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProImage
         fields = ['id', 'image']
+
+
+
+
 
 class ProductSerializer(serializers.ModelSerializer):
     images = ProImageSerializer(many=True, read_only=True)
@@ -178,19 +183,38 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubjectDetails
-        fields = ['id', 'name', 'address', 'age', 'date', 'longitude', 'latitude', 'images', 'master_front_profile', 'uploaded_images']
+        fields = ['id', 'name', 'address', 'age', 'gender' , 'date', 'time' ,'longitude', 'latitude', 'images', 'master_front_profile', 'uploaded_images', 'aadhar_no']
+        extra_kwargs = {
+            'name': {'required': False},
+            'age': {'required': False},
+            'longitude': {'required': False},
+            'latitude': {'required': False},
+            'master_front_profile': {'required': False},
+            'uploaded_images': {'required': False}
+        }
 
     def create(self, validated_data):
         uploaded_images = validated_data.pop('uploaded_images', [])
-        product = SubjectDetails.objects.create(**validated_data)
+        instance = SubjectDetails.objects.create(**validated_data)
+        
         for image in uploaded_images:
-            ProImage.objects.create(product=product, image=image)
-        return product
+            ProImage.objects.create(product=instance, image=image)
+     
+            
+        return instance
+
+    
 
     def update(self, instance, validated_data):
         uploaded_images = validated_data.pop('uploaded_images', [])
+        addresses_data = validated_data.pop('addresses', [])
+        dates_data = validated_data.pop('dates', [])
         instance = super().update(instance, validated_data)
+
         if uploaded_images:
             for image in uploaded_images:
                 ProImage.objects.create(product=instance, image=image)
+
+
+
         return instance

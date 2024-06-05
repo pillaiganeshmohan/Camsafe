@@ -151,12 +151,6 @@ class AdminIdentity(models.Model):
     taluka = models.CharField(max_length=25)
 
 
-
-
-
-
-
-
     def __str__(self):
         return self.name
 
@@ -223,22 +217,29 @@ def upload_path(instance, filename):
 class SubjectDetails(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
     name = models.CharField(max_length=200)
-    address = models.TextField(blank=True, null=True)
+    gender = models.CharField(max_length=50, null=True)
     age = models.IntegerField()
     gender = models.CharField(max_length=10)
     offence = models.CharField(max_length=200)
-    aadhar_no = models.BigIntegerField(null=True, default=None)
+    address = models.TextField(null=True)
     date = models.DateField(null=True)
+    time = models.TimeField(null=True)
+    aadhar_no = models.BigIntegerField(null=True, default=None, unique=True)
     day = models.CharField(max_length=20)
     longitude = models.CharField(max_length=30)
     latitude = models.CharField(max_length=30)
-    image = models.ImageField(upload_to = 'img',  blank = True, null=True, default='')
+    image = models.ImageField(upload_to='img', blank=True, null=True, default='')
     master_front_profile = models.ImageField(upload_to=upload_path, blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
- 
     def __str__(self):
         return self.name
+
+# New models to store multiple addresses, dates, and times
+
+
+
+
 
 class ProImage(models.Model):
     product = models.ForeignKey(SubjectDetails, on_delete=models.CASCADE, related_name = "images")

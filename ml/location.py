@@ -5,7 +5,8 @@ import requests
 def fetch_camera_details():
     current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     index = 0
-    details = ""
+    camera_details_list = []
+    
     while True:
         camera = cv2.VideoCapture(index)
         
@@ -13,23 +14,26 @@ def fetch_camera_details():
             ip_address = '110.226.182.142'
             latitude, longitude = fetch_geolocation(ip_address)
             address = fetch_address(latitude, longitude)
-            details += f"Date and Time: {current_datetime}\n"
-            details += f"Camera Index: {index}\n"
-            details += f"IP Address: {ip_address}\n"
-            details += f"Latitude: {latitude}, Longitude: {longitude}\n\n"
-            details += f"Address: {address}\n\n"
+            
+            camera_details = {
+                'Date_and_Time': current_datetime,
+                'Camera_Index': index,
+                'IP_Address': ip_address,
+                'latitude': latitude,
+                'longitude': longitude,
+                'address': address
+            }
+            camera_details_list.append(camera_details)
 
             camera.release()
-            
             index += 1
         else:
             break
 
-    return details
+    return camera_details
 
 def fetch_geolocation(ip_address):
     try:
-
         api_key = "1c6b0140cdc44c4da9ae5ec30bc47e58"  # Remove spaces
         res = requests.get(f'https://api.ipgeolocation.io/ipgeo?apiKey={api_key}&ip={ip_address}')
         data = res.json()
@@ -51,4 +55,6 @@ def fetch_address(latitude, longitude):
         return "Unknown"
     
 if __name__ == "__main__":
-    print(fetch_camera_details())
+    camera_details = fetch_camera_details()
+    for detail in camera_details:
+        print(detail)

@@ -4,6 +4,11 @@ from fetch import get_user_details
 from mail import send_email_with_attachment, fetch_recipient_emails
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
+import requests
+import logging
+from location import fetch_camera_details
+
+
 
 # Initialize dictionary to keep track of recognized faces and their last recognition time
 recognized_faces = {}
@@ -48,7 +53,7 @@ def recognize_user(model, recipient_emails):
                     subject_name = user_details.get("name", "Unknown")
                     subject_gender = user_details.get("gender", "Unknown")
                     subject_age = user_details.get("age", "Unknown")
-                    subject_aadhar = user_details.get("aadhar", "Unknown")
+                    subject_aadhar = user_details.get("aadhar_no", "Unknown")
                 else:
                     subject_name = "Unknown"
                     subject_gender = "Unknown"
@@ -85,12 +90,77 @@ def recognize_user(model, recipient_emails):
     video_capture.release()
     cv2.destroyAllWindows()
 
+
+def get_subject_id_from_api(aadhar_no):
+    api_url = 'http://127.0.0.1:8000/api/subjectdetails/'
+    try:
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            subject_details = response.json()
+            if subject_details:
+                for subject in subject_details:
+                    print(f"Aadhar number in response: {subject.get('aadhar_no')}")
+                    print(f"Aadhar number to match: {aadhar_no}")
+                    if str(subject.get('aadhar_no')) == aadhar_no:
+                        subject_id = subject['id']
+                        return subject_id
+                logging.warning("No subject found with the provided Aadhar number.")
+                return None
+            else:
+                logging.warning("No subject details returned from the API.")
+                return None
+        else:
+            logging.error(f"Failed to fetch subject details from API: {response.status_code}")
+            return None
+    except Exception as e:
+        logging.error(f"Error fetching subject details from API: {e}")
+        return None 
+
+def upload_image_to_api(image_path, aadhar_no):
+    camera_details = fetch_camera_details()
+
+    address = camera_details['address']
+    lat = camera_details['latitude']
+    long = camera_details['longitude']
+
+    subject_id = get_subject_id_from_api(aadhar_no)
+
+    if subject_id:
+        api_url = f'http://127.0.0.1:8000/api/subjectdetails/{subject_id}/'
+
+        try:
+            files = {'uploaded_images': open(image_path, 'rb')}
+            current_time = datetime.now()
+
+            data = {
+                'longitude': long,
+                'latitude': lat,
+                'address': address,
+                'date': current_time.date().isoformat(),
+                'time': current_time.time().strftime('%H:%M:%S')                    
+                                 
+                }
+            response = requests.patch(api_url, files=files, data=data)
+
+            if response.status_code == 200:  # Adjusted to match typical PATCH response status
+                logging.info("Image uploaded successfully to SubjectDetails API.")
+            else:
+                logging.error(f"Failed to upload image to SubjectDetails API: {response.status_code}")
+                logging.error(response.text)  # Log the response text for debugging
+        except Exception as e:
+            logging.error(f"Error uploading image to SubjectDetails API: {e}")
+    else:
+        logging.error("Subject ID not found")
+
 def send_email_with_details(recipient_emails, subject_id, subject_name, subject_gender, subject_age, subject_aadhar,image_path):
     for recipient_email in recipient_emails:
         send_email_with_attachment(recipient_email, "Subject Recognition Alert",
                                    f"Subject recognized:\nID: {subject_id}\nName: {subject_name}\n", image_path)
                                 #    f"Gender: {subject_gender}\nAge: {subject_age}\n"
-                                #    f"Aadhar: {subject_aadhar}", image_path)
+        print(f"Aadhar: {subject_aadhar}")
+    print(subject_aadhar)
+
+    upload_image_to_api(image_path, subject_aadhar)
 
 if __name__ == "__main__":
     # Load the trained face recognition model

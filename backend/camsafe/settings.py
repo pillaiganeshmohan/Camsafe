@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,7 +45,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+
 ]
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -68,6 +71,8 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
+
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 
@@ -75,6 +80,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 ROOT_URLCONF = 'camsafe.urls'
+
 
 TEMPLATES = [
     {
@@ -93,6 +99,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'camsafe.wsgi.application'
+ASGI_APPLICATION = 'camsafe.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 
 # Database
@@ -164,9 +177,9 @@ AUTH_USER_MODEL = 'camsafedata.User'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587  # For SSL
-EMAIL_HOST_USER = 'camsafepasta@gmail.com'
+EMAIL_HOST_USER = 'camsafeapplication@gmail.com'
 EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = 'mhcabbyyjqfcsabo'
+EMAIL_HOST_PASSWORD = 'kvyovtxgtoyrrdzw'
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),

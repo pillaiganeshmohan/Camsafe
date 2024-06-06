@@ -20,8 +20,10 @@ from rest_framework.decorators import api_view
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-
-
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -237,6 +239,7 @@ class SubjectDetailsRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIV
 
        
 
+
 class SubjectDetailsViewSet(viewsets.ModelViewSet):
     queryset = SubjectDetails.objects.all()
     serializer_class = ProductSerializer
@@ -251,8 +254,6 @@ class SubjectDetailsViewSet(viewsets.ModelViewSet):
         addresses_data = request.data.get('addresses', [])
         dates_data = request.data.get('dates', [])
         instance = serializer.save()
-
-        
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -271,3 +272,35 @@ class SubjectDetailsViewSet(viewsets.ModelViewSet):
             instance._prefetched_objects_cache = {}
 
         return Response(serializer.data)
+
+
+
+class NotificationListCreateAPIView(APIView):
+    def get(self, request):
+        notifications = Notification.objects.all()
+        serializer = NotificationSerializer(notifications, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = NotificationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class NotificationDetailAPIView(APIView):
+    def get_object(self, pk):
+        return get_object_or_404(Notification, pk=pk)
+
+    def get(self, request, pk):
+        notification = self.get_object(pk)
+        serializer = NotificationSerializer(notification)
+        return Response(serializer.data)
+
+    def patch(self, request, pk):
+        notification = self.get_object(pk)
+        serializer = NotificationSerializer(notification, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  

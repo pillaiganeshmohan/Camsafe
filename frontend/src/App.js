@@ -13,11 +13,14 @@ import History from "./components/History/History";
 import Detail from "./components/History/Details";
 import AdminMain from "./components/Admin/AdminMain.js";
 import 'react-toastify/dist/ReactToastify.css';
+import AlertComponent from "./components/AlertComponent.js";
+
 
 function App() {
   return (
     <Router>
       <div className="App">
+      <AlertComponent />
         <ToastContainer
           position="top-right"
           autoClose={5000}

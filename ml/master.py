@@ -103,7 +103,8 @@ def get_subject_id_from_api(aadhar_no):
                     print(f"Aadhar number to match: {aadhar_no}")
                     if str(subject.get('aadhar_no')) == aadhar_no:
                         subject_id = subject['id']
-                        return subject_id
+                        name = f"{subject['name']}"
+                        return {'subject_id': subject_id, 'name': name}
                 logging.warning("No subject found with the provided Aadhar number.")
                 return None
             else:
@@ -123,10 +124,14 @@ def upload_image_to_api(image_path, aadhar_no):
     lat = camera_details['latitude']
     long = camera_details['longitude']
 
-    subject_id = get_subject_id_from_api(aadhar_no)
+    subject_data = get_subject_id_from_api(aadhar_no)
+    subject_id = subject_data['subject_id']
+    subject_name = subject_data['name']
 
     if subject_id:
         api_url = f'http://127.0.0.1:8000/api/subjectdetails/{subject_id}/'
+        api_url2 = f'http://127.0.0.1:8000/api/notifications/'
+
 
         try:
             files = {'uploaded_images': open(image_path, 'rb')}
@@ -141,7 +146,8 @@ def upload_image_to_api(image_path, aadhar_no):
                                  
                 }
             response = requests.patch(api_url, files=files, data=data)
-
+            noti_data = {'notification':f'{subject_name} is detected'}
+            requests.post(api_url2, data=noti_data)                
             if response.status_code == 200:  # Adjusted to match typical PATCH response status
                 logging.info("Image uploaded successfully to SubjectDetails API.")
             else:

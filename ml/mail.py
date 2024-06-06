@@ -25,7 +25,7 @@ def send_email_with_attachment(receiver, subject, body, attachment_path):
     date = datetime.date.today().strftime("%B %d, %Y")
     
     # Mail information
-    yag = yagmail.SMTP("camsafepasta@gmail.com", "mhca bbyy jqfc sabo")
+    yag = yagmail.SMTP("camsafeapplication@gmail.com", "kvyo vtxg toyr rdzw")
 
     # Send the email to recipients using location details
     
@@ -45,7 +45,7 @@ def send_email_with_location(receiver, subject, body, attachment_path, camera_de
     #f"{body}\n\nCamera Details:\n{camera_details}"
     
     # Mail information
-    yag = yagmail.SMTP("camsafepasta@gmail.com", "mhca bbyy jqfc sabo")
+    yag = yagmail.SMTP("camsafeapplication@gmail.com", "kvyo vtxg toyr rdzw")
 
     # Send the mail
     yag.send(

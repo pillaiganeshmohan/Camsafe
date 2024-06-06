@@ -218,3 +218,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
         return instance
+
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = '__all__'

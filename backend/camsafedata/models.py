@@ -5,7 +5,9 @@ import uuid,os
 from django.utils import timezone
 import random
 from django.conf import settings
-
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+import json
 
 class OTP(models.Model):
     email = models.EmailField()
@@ -235,12 +237,36 @@ class SubjectDetails(models.Model):
     def __str__(self):
         return self.name
 
-# New models to store multiple addresses, dates, and times
-
-
 
 
 
 class ProImage(models.Model):
     product = models.ForeignKey(SubjectDetails, on_delete=models.CASCADE, related_name = "images")
     image = models.ImageField(upload_to = 'img',  blank = True, null=True, default='')
+
+
+# models.py
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
+class Notification(models.Model):
+    notification = models.TextField(max_length=100)
+    is_seen = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        super(Notification, self).save(*args, **kwargs)
+        channel_layer = get_channel_layer()
+        notification_count = Notification.objects.filter(is_seen=False).count()
+        data = {
+            'count': notification_count,
+            'current_notification': self.notification
+        }
+        async_to_sync(channel_layer.group_send)(
+            'notification_group',
+            {
+                'type': 'send_notification',
+                'value': json.dumps(data)
+            }
+        )
+
+# daphne -b 127.0.0.1 -p 8000 camsafe.asgi:application

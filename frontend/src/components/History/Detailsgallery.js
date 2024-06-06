@@ -10,7 +10,7 @@ const Detailsgallery = ({ images }) => {
   };
 
   return (
-    <div>
+    <div className="z-50">
       <div className="flex w-full">
         {images.length > 0 && (
           <img

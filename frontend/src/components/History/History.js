@@ -4,9 +4,16 @@ import detail_bg from '../../assets/Contact Us Grad.png';
 import history_img from "../../assets/history.png";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import AlertComponent from '../AlertComponent';
 
 function History() {
   const [data, setData] = useState([]);
+  // const [notificationData, setNotificationData] = useState(null);
+
+  // const handleNotification = (data) => {
+  //   setNotificationData(data);
+  //   alert(notificationData)
+  // };
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
@@ -24,7 +31,9 @@ function History() {
 
   return (
     <div className="flex flex-col items-center w-full">
+
       <HistoryHeader />
+
       <img src={detail_bg} className="w-full absolute top-16 left-0 -z-10 object-fill sm:h-full" alt="Background" />
       <div className="flex flex-col item-center justify-center">
         <div className="flex flex-row sm:flex-col">

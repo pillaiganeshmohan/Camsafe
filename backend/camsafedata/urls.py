@@ -4,6 +4,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+
 #AdminIdentityList, UserIdentityList
 
 urlpatterns = [
@@ -39,5 +40,7 @@ urlpatterns = [
     path('subjectdetails/<uuid:pk>/', SubjectDetailsRetrieveUpdateDestroyView.as_view(), name='subject-details-retrieve-update-destroy'),
     path('update-subject-details/<uuid:pk>/', SubjectDetailsRetrieveUpdateDestroyView.as_view(), name='subject-details-detail'),
     path('logout/', UserLogoutAPIView.as_view(), name='user-logout'),
+    path('notifications/', NotificationListCreateAPIView.as_view(), name='notification-list-create'),
+    path('notifications/<int:pk>/', NotificationDetailAPIView.as_view(), name='notification-detail'),
 ]
 

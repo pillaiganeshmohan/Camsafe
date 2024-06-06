@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Subject, CCTVIdentityMaster, AdminIdentity, UserIdentity, CcTVIdentityTransaction, FeatureData, ContactUs
-from .models import User, UserProfile, SubjectDetails,ProImage
+from .models import User, UserProfile, SubjectDetails,ProImage, Notification
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -23,3 +23,4 @@ admin.site.register(FeatureData)
 admin.site.register(ContactUs)
 admin.site.register(SubjectDetails)
 admin.site.register(ProImage)
+admin.site.register(Notification)

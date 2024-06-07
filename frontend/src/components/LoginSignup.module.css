@@ -402,6 +402,15 @@
     width: 100%;
     line-height: 2px;
     margin-bottom: 2%;
+    margin-left: 2%;
+}
+
+.formLabel2 {
+    font-weight: bold;
+    width: 100%;
+    line-height: 2px;
+    margin-bottom: 1%;
+    margin-left: 2%;
 }
 
 .formLabel4 {
@@ -409,7 +418,8 @@
     width: 100%;
     line-height: 2px;
     margin-bottom: 2%;
-    margin-left: 1%;
+    /* justify-content: space-between; */
+    margin-left: 1.5%;
 }
 
 .formInput {
@@ -447,6 +457,14 @@
     margin-top: 1%;
     margin-bottom: 1%;
     gap: 2%;
+}
+
+.formInput5 {
+    position: absolute;
+    height: 40px;
+    display: flex;
+    margin-left: 16%;
+    width: 15%;
 }
 
 @media (max-width:780px) {

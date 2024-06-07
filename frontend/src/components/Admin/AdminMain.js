@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import AdminHeader from "../Admin/AdminHeader";
 import AdminSignUpRequest from "../Admin/AdminSignUpRequest";
-import AdminUserDetail from "../Admin/AdminUserDetail";
+import AdminUserDetail from "./AdminUserDetail";
+import Admincontactus from "./Admincontactus";
 import AdminDashboard from "../Admin/AdminDashboard";
 import "./AdminMain.css";
 
@@ -23,7 +24,11 @@ const AdminMain = () => {
                     <tr>
                         <AdminUserDetail />
                     </tr>
+                    <tr>
+                        <Admincontactus />
+                    </tr>
                 </table >
+                
             </div>
         </div >
     );

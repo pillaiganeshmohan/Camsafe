@@ -25,7 +25,7 @@ function AdminSignup() {
         agreedToTerms: false
     });
     const navigate = useNavigate()
-
+    const [errors, setErrors] = useState({})
     const [otp, setOtp] = useState('');
     const [otpSent, setOtpSent] = useState(false);
     const [otpVerified, setOtpVerified] = useState(false);
@@ -44,18 +44,44 @@ function AdminSignup() {
     }, [otpSent, timeLeft]);
 
     const generateOtp = async () => {
-        const requiredFields = ['name', 'contact_no', 'email', 'password', 'reEnterPassword', 'police_station_code'];
-        const missingField = requiredFields.filter(field => !formData[field]);
+        //Reset errors
+        setErrors({});
 
-        if (missingField.length > 0) {
-            alert(`Please fill the following fields: ${missingField.join(', ')}`);
-            return;
-        }
+        // Check if all required fields are filled
+        const requiredFields = ['name', 'contact_no', 'email', 'password','thane_incharge','location','pin_code','state','district','taluka', 'police_station_code', 'agreedToTerms'];
+        let hasError = false;
+        let newErrors = {};
+
+        requiredFields.forEach(field => {
+            if (!formData[field]) {
+                newErrors[field] = `Please fill in your ${field.replace('_', ' ')}.`;
+                hasError = true;
+            }
+        });
 
         if (formData.password !== formData.reEnterPassword) {
-            alert("Passwords do not match");
-            return;
+            newErrors.reEnterPassword = "Password do not match.";
+            hasError = true;
         }
+
+        if (!formData.agreedToTerms) {
+            // newErrors.agreedToTerms = "You must agree to the terms and conditions.";
+            toast.error('You must agree to the terms and conditions', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            hasError = true;
+        }
+
+        setErrors(newErrors);
+
+        if (hasError) return;
 
         try {
             const response = await axios.post(`http://127.0.0.1:8000/api/generate-otp/`, { email: formData.email });
@@ -76,7 +102,7 @@ function AdminSignup() {
             console.log("Error sending OTP", error);
         }
     };
-  
+
 
     const verifyOtp = async () => {
         try {
@@ -93,7 +119,7 @@ function AdminSignup() {
                     progress: undefined,
                     theme: "light",
                   });
-            
+
         } catch (error) {
             console.log("Error verifying OTP", error);
         }
@@ -129,7 +155,7 @@ function AdminSignup() {
                 progress: undefined,
                 theme: "light",
               });
-            navigate('/login')  
+            navigate('/login')
         } catch (error) {
             console.error('Error submitting form', error);
             toast.error('Error submitting form', {
@@ -154,12 +180,13 @@ function AdminSignup() {
                     <form className={styles.signUpForm}>
                         <label className={styles.formLabel1}>Name</label>
                         <input
-                            className={styles.formInput1}
+                            className={`${styles.formInput1} ${errors.name ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                             type='text'
                             name='name'
                             value={formData.name}
                             onChange={handleChange}
-                            placeholder='XYZ ABC'
+                            placeholder={errors.name || 'XYZ ABC'}
+                            disabled={otpSent}
                         />
 
                         <div className={styles.passwordContainer}>
@@ -168,20 +195,22 @@ function AdminSignup() {
                         </div>
                         <div className={styles.passwordContainer}>
                             <input
-                                className={styles.formInput4}
+                                className = {`${styles.formInput4} ${errors.contact_no ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='text'
                                 name='contact_no'
                                 value={formData.contact_no}
                                 onChange={handleChange}
-                                placeholder='XXXXX-XXXXX'
+                                placeholder = {errors.contact_no || 'XXXXX-XXXXX'}
+                                disabled={otpSent}
                             />
                             <input
-                                className={styles.formInput4}
+                                className = {`${styles.formInput4} ${errors.email ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='text'
                                 name='email'
                                 value={formData.email}
                                 onChange={handleChange}
-                                placeholder='xyz@gmail.com'
+                                placeholder = {errors.email || 'xyz@gmail.com'}
+                                disabled={otpSent}
                             />
                         </div>
 
@@ -191,20 +220,22 @@ function AdminSignup() {
                         </div>
                         <div className={styles.passwordContainer}>
                             <input
-                                className={styles.formInput4}
+                                className = {`${styles.formInput4} ${errors.password ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='password'
                                 name='password'
                                 value={formData.password}
                                 onChange={handleChange}
-                                placeholder='Enter Password'
+                                placeholder={errors.password || 'Enter Password'}
+                                disabled={otpSent}
                             />
                             <input
-                                className={styles.formInput4}
+                                className={`${styles.formInput4} ${errors.reEnterPassword ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='password'
                                 name='reEnterPassword'
                                 value={formData.reEnterPassword}
                                 onChange={handleChange}
-                                placeholder='Re-enter Password'
+                                placeholder={errors.reEnterPassword || 'Re-enter Password'}
+                                disabled={otpSent}
                             />
                         </div>
 
@@ -214,88 +245,107 @@ function AdminSignup() {
                         </div>
                         <div className={styles.passwordContainer}>
                             <input
-                                className={styles.formInput4}
+                                className = {`${styles.formInput4} ${errors.location ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='text'
                                 name='location'
                                 value={formData.location}
                                 onChange={handleChange}
-                                placeholder='Location'
+                                placeholder={errors.location || 'Location'}
+                                disabled={otpSent}
                             />
                             <input
-                                className={styles.formInput4}
+                                className = {`${styles.formInput4} ${errors.pin_code ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='text'
                                 name='pin_code'
                                 value={formData.pin_code}
                                 onChange={handleChange}
-                                placeholder='Pin Code'
+                                placeholder={errors.pin_code || 'Pin Code'}
+                                disabled={otpSent}
                             />
                         </div>
 
                         <div className={styles.passwordContainer}>
-                            <label className={styles.formLabel1}>State</label>
-                            <label className={styles.formLabel1}>District</label>
-                            <label className={styles.formLabel1}>Taluka</label>
+                            <label className={styles.formLabel2}>State</label>
+                            <label className={styles.formLabel2}>District</label>
+                            <label className={styles.formLabel2}>Taluka</label>
                         </div>
                         <div className={styles.passwordContainer}>
                             <input
-                                className={styles.formInput3}
+                                className = {`${styles.formInput3} ${errors.state ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='text'
                                 name='state'
                                 value={formData.state}
                                 onChange={handleChange}
-                                placeholder='State'
+                                placeholder={errors.state ||'State'}
+                                disabled={otpSent}
                             />
                             <input
-                                className={styles.formInput3}
+                                className = {`${styles.formInput3} ${errors.district ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='text'
                                 name='district'
                                 value={formData.district}
                                 onChange={handleChange}
-                                placeholder='District'
+                                placeholder={errors.district ||'District'}
+                                disabled={otpSent}
                             />
                             <input
-                                className={styles.formInput3}
+                                className = {`${styles.formInput3} ${errors.taluka ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='text'
                                 name='taluka'
                                 value={formData.taluka}
                                 onChange={handleChange}
-                                placeholder='Taluka'
+                                placeholder={errors.district || 'Taluka'}
+                                disabled={otpSent}
                             />
                         </div>
 
-                        <label className={styles.formLabel1}>Thana Incharge</label>
+                        <label className={styles.formLabel2}>Thana Incharge</label>
                         <input
-                            className={styles.formInput2}
+                            className={`${styles.formInput2} ${errors.thane_incharge ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                             type='text'
                             name='thane_incharge'
                             value={formData.thane_incharge}
                             onChange={handleChange}
-                            placeholder='Enter the name of Thana Incharge'
+                            placeholder={errors.thane_incharge || 'Enter the name of Thana Incharge'}
+                            disabled={otpSent}
                         />
 
                         <div className={styles.passwordContainer}>
                             <label className={styles.formLabel4}>Police Station Code</label>
-                            <label className={styles.formLabel4}>Enter OTP</label>
+                            {otpSent && (
+                                <>
+                                    <label className={styles.formLabel4}>Enter OTP</label>
+                                </>
+                            )}
                         </div>
                         <div className={styles.passwordContainer}>
                             <input
-                                className={styles.formInput4}
+                                className={`${styles.formInput4} ${errors.police_station_code ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='text'
                                 name='police_station_code'
                                 value={formData.police_station_code}
                                 onChange={handleChange}
-                                placeholder='Police Station Code'
+                                placeholder = {errors.police_station_code || 'Police Station Code'}
+                                disabled={otpSent}
                             />
-                            <input className={styles.formInput4} type='text' name='otp' value={otp} onChange={(e) => setOtp(e.target.value)}
-                                placeholder='Enter Your OTP' disabled={!otpSent} // Disable input if OTP is not
-                            />
+
+
+                            {otpSent && (
+                                <>
+                                    <input className={styles.formInput5} type='text' name='otp' value={otp} onChange={(e) => setOtp(e.target.value)}
+                                    placeholder='Enter Your OTP' disabled={!otpSent} // Disable input if OTP is not
+                                    />
+                                </>
+                            )}
+
+
                             {otpSent && !otpVerified && (
                                 <div className="mt-14 -ml-32 font-bold align-bottom hover:underline sm:mb-4">
                                     {resendDisabled ? (
                                         <span>Resend OTP in {Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? `0${timeLeft % 60}` : timeLeft % 60}</span>
                                     ) : (
                                         <span>
-                                            <label type="button" onClick={handleResendClick}>Resend OTP</label>
+                                            <label type="button" onClick={handleResendClick} className='hover:cursor-pointer'>Resend OTP</label>
                                         </span>
                                     )}
                                 </div>
@@ -308,6 +358,7 @@ function AdminSignup() {
                                 name='agreedToTerms'
                                 checked={formData.agreedToTerms}
                                 onChange={handleChange}
+                                disabled={otpSent}
                             />
                             I agree to terms & conditions
                         </label>

@@ -1,14 +1,15 @@
 import React from 'react';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
   const token = localStorage.getItem('token');
-
+  const navigate = useNavigate();
   function logout() {
     // Implement logout functionality here
     // For example, you can remove the token from local storage
     localStorage.removeItem('token');
+    navigate('/')
     // Optionally, you can redirect the user to the login page
     // window.location.href = '/login';
   }

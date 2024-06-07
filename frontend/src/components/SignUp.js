@@ -19,6 +19,7 @@ function SignUp() {
         agreedToTerms: false,
     });
 
+    const [errors, setErrors] = useState({});
     const navigate = useNavigate()
     const [otp, setOtp] = useState('');
     const [otpSent, setOtpSent] = useState(false);
@@ -38,20 +39,44 @@ function SignUp() {
     }, [otpSent, timeLeft]);
 
     const generateOtp = async () => {
-        // Check if all required fields are filled
-        const requiredFields = ['name', 'contact_no', 'email', 'password', 'reEnterPassword', 'police_station_code'];
-        const missingField = requiredFields.filter(field => !formData[field]);
+        // Reset errors
+        setErrors({});
 
-        // If any required field is missing, show alert and return
-        if (missingField.length > 0) {
-            alert(`Please fill the following fields: ${missingField.join(', ')}`);
-            return;
-        }
+        // Check if all required fields are filled
+        const requiredFields = ['name', 'contact_no', 'email', 'password', 'police_station_code', 'agreedToTerms'];
+        let hasError = false;
+        let newErrors = {};
+
+        requiredFields.forEach(field => {
+            if (!formData[field]) {
+                newErrors[field] = `Please fill in your ${field.replace('_', ' ')}.`;
+                hasError = true;
+            }
+        });
 
         if (formData.password !== formData.reEnterPassword) {
-            alert("Passwords do not match");
-            return;
+            newErrors.reEnterPassword = "Passwords do not match.";
+            hasError = true;
         }
+
+        if (!formData.agreedToTerms) {
+            // newErrors.agreedToTerms = "You must agree to the terms and conditions.";
+            toast.error('You must agree to the terms and conditions', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            hasError = true;
+        }
+
+        setErrors(newErrors);
+
+        if (hasError) return;
 
         try {
             const response = await axios.post(`http://127.0.0.1:8000/api/generate-otp/`, { email: formData.email });
@@ -76,7 +101,6 @@ function SignUp() {
     const verifyOtp = async () => {
         try {
             const response = await axios.post(`http://127.0.0.1:8000/api/verify-otp/`, { email: formData.email, otp: otp });
-
                 setOtpVerified(true);
                 toast.success('OTP verified successfully', {
                     position: "top-right",
@@ -88,7 +112,7 @@ function SignUp() {
                     progress: undefined,
                     theme: "light",
                   });
-            
+
         } catch (error) {
             console.log("Error verifying OTP", error);
         }
@@ -124,7 +148,7 @@ function SignUp() {
                 progress: undefined,
                 theme: "light",
               });
-            navigate('/login')  
+            navigate('/login')
         } catch (error) {
             console.error('Error submitting form', error);
             toast.error('Error submitting form', {
@@ -150,32 +174,35 @@ function SignUp() {
                         <form className={styles.signUpForm} onSubmit={handleSubmit}>
                             <label className={styles.formLabel1}>Name</label>
                             <input
-                                className={styles.formInput1}
+                                className={`${styles.formInput1} ${errors.name ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='text'
                                 name='name'
                                 value={formData.name}
                                 onChange={handleChange}
-                                placeholder='XYZ ABC'
+                                placeholder={errors.name || 'XYZ ABC'}
+                                disabled={otpSent}
                             />
 
                             <label className={styles.formLabel1}>Contact Number</label>
                             <input
-                                className={styles.formInput1}
+                                className={`${styles.formInput1} ${errors.contact_no ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='text'
                                 name='contact_no'
                                 value={formData.contact_no}
                                 onChange={handleChange}
-                                placeholder='XXXXX-XXXXX'
+                                placeholder={errors.contact_no || 'XXXXX-XXXXX'}
+                                disabled={otpSent}
                             />
 
                             <label className={styles.formLabel1}>Email</label>
                             <input
-                                className={styles.formInput1}
+                                className={`${styles.formInput1} ${errors.email ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='email'
                                 name='email'
                                 value={formData.email}
                                 onChange={handleChange}
-                                placeholder='xyz@gmail.com'
+                                placeholder={errors.email || 'xyz@gmail.com'}
+                                disabled={otpSent}
                             />
 
                             <div className={styles.passwordContainer}>
@@ -184,50 +211,67 @@ function SignUp() {
                             </div>
                             <div className={styles.passwordContainer}>
                                 <input
-                                    className={styles.formInput4}
+                                    className={`${styles.formInput4} ${errors.password ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                     type='password'
                                     name='password'
                                     value={formData.password}
                                     onChange={handleChange}
-                                    placeholder='8 character password'
+                                    placeholder={errors.password || '8 character password'}
+                                    disabled={otpSent}
                                 />
                                 <input
-                                    className={styles.formInput4}
+                                    className={`${styles.formInput4} ${errors.reEnterPassword ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                     type='password'
                                     name='reEnterPassword'
                                     value={formData.reEnterPassword}
                                     onChange={handleChange}
-                                    placeholder='Re-enter password'
+                                    placeholder={errors.reEnterPassword || 'Re-enter password'}
+                                    disabled={otpSent}
                                 />
                             </div>
 
                             <label className={styles.formLabel1}>Police Center Code</label>
                             <input
-                                className={styles.formInput1}
+                                className={`${styles.formInput1} ${errors.police_station_code ? 'border-red-500 placeholder-red-500 text-sm' : ''}`}
                                 type='text'
                                 name='police_station_code'
                                 value={formData.police_station_code}
                                 onChange={handleChange}
-                                placeholder='Enter Police center code'
+                                placeholder={errors.police_station_code || 'Enter Police center code'}
+                                disabled={otpSent}
                             />
 
-                            <label className={styles.formLabel1}>Enter OTP</label>
+                            {/* <label className={styles.formLabel1}>Enter OTP</label>
                             <input
                                 className={styles.formInput1}
                                 type='text'
                                 name='otp'
                                 value={otp}
                                 onChange={(e) => setOtp(e.target.value)}
-                                placeholder='Enter OTP' 
+                                placeholder='Enter OTP'
                                 disabled={!otpSent} // Disable input if OTP is not sent
-                            />
+                            /> */}
+
+                            {otpSent && (
+                                <>
+                                    <label className={styles.formLabel1}>Enter OTP</label>
+                                    <input
+                                        className={styles.formInput1}
+                                        type='text'
+                                        name='otp'
+                                        value={otp}
+                                        onChange={(e) => setOtp(e.target.value)}
+                                        placeholder='Enter OTP'
+                                    />
+                                </>
+                            )}
 
                             {otpSent && !otpVerified && (
                                 <div className="text-start font-bold hover:underline mb-5">
                                     {resendDisabled ? (
                                         <span>Resend OTP in {Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? `0${timeLeft % 60}` : timeLeft % 60}</span>
                                     ) : (
-                                        <label type="button" onClick={handleResendClick}>Resend OTP</label>
+                                        <label type="button" onClick={handleResendClick} className='hover:cursor-pointer'>Resend OTP</label>
                                     )}
                                 </div>
                             )}
@@ -237,11 +281,12 @@ function SignUp() {
                                     type='checkbox'
                                     name='agreedToTerms'
                                     checked={formData.agreedToTerms}
-                                    onChange={handleChange} 
-                                    disabled={!otpSent} // Disable input if OTP is not sent
+                                    onChange={handleChange}
+                                    disabled={otpSent} // Disable input if OTP is sent
                                 />
                                 I agree to terms & conditions
                             </label>
+                            {/* {errors.agreedToTerms && <div className="text-red-500">{errors.agreedToTerms}</div>} */}
 
                             {!otpSent && (
                                 <Button onClick={generateOtp} name="Send OTP" />

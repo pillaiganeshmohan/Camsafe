@@ -28,6 +28,11 @@ const AdminDashboard = () => {
             User Details
           </button>
         </a>
+        <a href="#contactdetails" className="w-full">
+          <button className="text-white text-3xl font-semibold bg-transparent border-none w-full mt-5 hover:bg-blue_hover hover:text-3xl hover:w-full hover:rounded hover:p-2 hover:px-3 hover:text-white">
+            Contact Us Queries
+          </button>
+        </a>
       </div>
     </div>
   );

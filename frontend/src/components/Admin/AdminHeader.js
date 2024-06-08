@@ -3,6 +3,8 @@ import "./AdminDashboard.css";
 import image from "../../assets/Male_User.png";
 
 function AdminHeader({ toggleDashboard }) {
+  const role = localStorage.getItem('role')
+  console.log(role)
   function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
   }
@@ -37,9 +39,16 @@ function AdminHeader({ toggleDashboard }) {
               <li>
                 <a href="/about">About Us</a>
               </li>
+              {role == 'user' &&
               <li>
                 <a href="/contact">Contact Us</a>
               </li>
+              }
+              {role == 'admin' &&
+              <li>
+                <a href="/admin">Admin Dashboard</a>
+              </li>
+              }
             </ul>
           </nav>
 
@@ -54,9 +63,12 @@ function AdminHeader({ toggleDashboard }) {
                   <a href="/" onClick={() => myFunction()}>Home</a>
                   <a href="/history" onClick={() => myFunction()}>Records</a>
                   <a href="/about" onClick={() => myFunction()}> About Us</a>
-                  <a href="/contact" onClick={() => myFunction()}>Contact Us</a>
-                  <a href="#signup" onClick={() => myFunction()}> SignUp Request</a>
-                  <a href="#userdetail"  onClick={() => myFunction()}>User Details</a>
+                  {role == 'user' && 
+                  <a href="/contact" onClick={() => myFunction()}>Contact Us</a>}
+                  {role == 'admin' &&
+                  <a href="#signup" onClick={() => myFunction()}> SignUp Request</a>}
+                  {role == 'admin' &&
+                  <a href="#userdetail"  onClick={() => myFunction()}>User Details</a>}
                 </div>
               </div>
               <span className="avtar1">

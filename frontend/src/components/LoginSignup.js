@@ -58,6 +58,7 @@ function LoginSignup() {
             const response = await axios.post('http://127.0.0.1:8000/api/login/', formData);
             console.log('Server response:', response.data);
             localStorage.setItem('token', response.data.access);
+            localStorage.setItem('role', response.data.user_role);
             localStorage.setItem('Name', response.data.name);
             toast.success('User logged in successfully', {
                 position: 'top-right',

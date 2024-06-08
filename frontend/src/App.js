@@ -14,7 +14,8 @@ import Detail from "./components/History/Details";
 import AdminMain from "./components/Admin/AdminMain.js";
 import 'react-toastify/dist/ReactToastify.css';
 import AlertComponent from "./components/AlertComponent.js";
-
+import AdminProtected from "./components/Admin/AdminProtected.js";
+import UserProtected from "./components/UserProtected.js";
 
 function App() {
   return (
@@ -35,16 +36,31 @@ function App() {
         />
         <Routes>
           <Route path="/header" element={<Header />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/detailed-view/:id" element={<Detail />} />
+          <Route
+            path="/history"
+            element={
+            <UserProtected User={History} />
+          }/>
+          <Route
+            path="/detailed-view/:id"
+            element={
+            <UserProtected User={Detail} />
+          }/>
+          {/* <Route path="/history" element={<History />} /> */}
+          {/* <Route path="/detailed-view/:id" element={<Detail />} /> */}
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginSignup />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/adminsignup" element={<AdminSignup />} />
-          <Route path="/admin" element={<AdminMain />} />
+          {/* <Route path="/admin" element={<AdminMain />} /> */}
+          <Route
+            path="/admin"
+            element={
+            <AdminProtected Admin={AdminMain} />
+          }/>
         </Routes>
+        
       </div>
     </Router>
   );

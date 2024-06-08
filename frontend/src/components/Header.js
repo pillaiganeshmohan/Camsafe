@@ -9,6 +9,9 @@ function Header() {
     // Implement logout functionality here
     // For example, you can remove the token from local storage
     localStorage.removeItem('token');
+    localStorage.removeItem('Name');
+    localStorage.removeItem('role');
+
     navigate('/')
     // Optionally, you can redirect the user to the login page
     // window.location.href = '/login';

@@ -204,7 +204,7 @@ class FeatureData(models.Model):
 class ContactUs(models.Model):
     name = models.CharField(max_length=50) 
     lastname = models.CharField(max_length=50) 
-    email = models.EmailField(max_length=50, primary_key=True) 
+    email = models.EmailField(max_length=50) 
     message = models.CharField(max_length=100) 
 
     def __str__(self):

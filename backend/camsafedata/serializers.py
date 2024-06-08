@@ -51,8 +51,11 @@ class MyTokenObtainPairSerializer(serializers.Serializer):
         print("After saving: ", user.login_status)
         
         attrs['name'] = f"{user.name}"
+        attrs['user_role'] = f"{user.user_role}"
+
         attrs['token'] = {
             'name': attrs['name'],
+            'user_role':attrs['user_role'],
             'refresh': str(refresh),
             'access': str(refresh.access_token),
         }

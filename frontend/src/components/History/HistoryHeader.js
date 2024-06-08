@@ -7,7 +7,7 @@ function HistoryHeader({ toggleDashboard }) {
   function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
   }
-
+  const role = localStorage.getItem('role')
   // Close the dropdown menu if the user clicks outside of it
   window.onclick = function (event) {
     if (!event.target.matches(".dropbtn1")) {
@@ -35,7 +35,12 @@ function HistoryHeader({ toggleDashboard }) {
             <li><Link to="/" className=' hover:no-underline font-bold relative inline cursor-pointer text-xl  before:bg-violet-600  before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100'>Home</Link></li>
             <li><Link to="/history" className=' hover:no-underline font-bold relative inline cursor-pointer text-xl before:bg-violet-600  before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100'>Records</Link></li>
             <li><Link to="/about"  className='hover:no-underline relative font-bold inline cursor-pointer text-xl before:bg-violet-600  before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100'> About Us</Link></li>
+            {role == 'user' &&
             <li><Link to="/contact"  className='hover:no-underline font-bold relative inline cursor-pointer text-xl before:bg-violet-600  before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100'>Contact Us</Link></li>
+            }
+            {role == 'admin' &&
+            <li><Link to="/admin"  className='hover:no-underline font-bold relative inline cursor-pointer text-xl before:bg-violet-600  before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100'>Admin Dashboard</Link></li>
+            }
           </ul>
           </nav>
           <nav className="right1">
@@ -49,7 +54,12 @@ function HistoryHeader({ toggleDashboard }) {
                   <a href="/">Home</a>
                   <a href="/history">Records</a>
                   <a href="/about">About Us</a>
+                  {role == 'user' &&
                   <a href="/contact">Contact Us</a>
+                  }
+                   {role == 'admin' &&
+                  <a href="/admin">Admin Dashboard</a>
+                  }
                 </div>
               </div>
               <span className="avtar1">

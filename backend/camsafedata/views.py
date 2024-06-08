@@ -131,7 +131,7 @@ class FeatureDataDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = FeatureData.objects.all()
     serializer_class = FeatureDataSerializer
 
-class ContactUsCreateView(generics.CreateAPIView):
+class ContactUsListCreateView(generics.ListCreateAPIView):
     queryset = ContactUs.objects.all()
     serializer_class = ContactUsSerializer
 

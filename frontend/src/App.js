@@ -53,14 +53,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginSignup />} />
           <Route path="/signup" element={<SignUp />} />
-          {/* <Route path="/admin" element={<AdminMain />} /> */}
+          <Route path="/adminsignup" element={<AdminSignup />} />
           <Route
             path="/admin"
             element={
             <AdminProtected Admin={AdminMain} />
           }/>
         </Routes>
-        
+
       </div>
     </Router>
   );

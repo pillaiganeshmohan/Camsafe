@@ -1,0 +1,40 @@
+Metadata-Version: 2.1
+Name: haar-cascade-nms
+Version: 1.1.1
+Summary: Extend opencv haar-cascade detector to filter detections with Non-Maxima Suppression (NMS)
+Home-page: https://github.com/LauLauThom/haar-cascade-nms
+Author: Laurent Thomas
+Author-email: laurent132.thomas@laposte.net
+License: UNKNOWN
+Keywords: object-recognition object-detection object-localization cascade-detectors haar-cascade opencv
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering :: Image Recognition
+Classifier: Intended Audience :: Science/Research
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: opencv-python-headless (>=4.5.4)
+
+# OpenCV Haar cascade with Non-Maxima Suppression
+This simple project provides a `Detector` class extending the opencv `CascadeDetector`class with a new function: `detectAndFilter`.  
+This function performs the detection using the cascade and filter the detections based on the score and their overlap to yield the best detections that do not overlap above the selected `overlap-threshold`.
+
+For more details about Non-Maxima Suppression, you can refer to my article about Multi-Template Matching, which uses a similar strategy (or other online resources).  
+Here the NMS shipped with OpenCV is used.
+
+# Installation
+Using pip:  
+`pip install haar-cascade-nms`
+
+Then to use in your scripts:  
+```python
+from haarcascade import Detector
+myDetector = Detector(filepathToCascade)
+myDetector.detectAndFilter(image, etc...)
+```
+
+See the tutorial notebook for a more detailed documentation.
+
+

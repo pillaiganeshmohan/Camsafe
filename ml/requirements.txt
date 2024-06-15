@@ -1,5 +1,6 @@
 CMake
 wheel
+# wheel==0.29.0
 Pillow
 requests
 opencv-contrib-python
@@ -8,10 +9,17 @@ facenet-opencv
 mtcnn
 haar-cascade-nms
 tk
-os-sys
-
+# os-sys
 pytest-shutil
 yagmail
-jsonlib
+simplejson==3.19.1
 logging
 numpy
+bumpversion==0.5.3
+#watchdog==0.8.3
+flake8==2.6.0
+tox==2.3.1
+coverage==4.1
+Sphinx==1.4.8
+cryptography==1.7
+PyYAML==5.1

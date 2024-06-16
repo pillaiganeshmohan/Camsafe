@@ -20,7 +20,7 @@ Camsafe, a real-time criminal face recognition is a dynamic system designed to r
 
 ### `npm start`
 
-Frontend will be hosted on below link
+Frontend will be hosted on below link  
 http://localhost:3000/
 
 # Run Backend
@@ -39,7 +39,7 @@ http://localhost:3000/
 
 ### `daphne -b 127.0.0.1 -p 8000 camsafe.asgi:application`
 
-Backend will be hosted on below link
+Backend will be hosted on below link  
 http://127.0.0.1:8000/
 
 # Run ML

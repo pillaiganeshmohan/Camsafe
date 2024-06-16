@@ -10,6 +10,8 @@ Camsafe, a real-time criminal face recognition is a dynamic system designed to r
 4. Notifies the police if criminal is detected on the system
 5. Admin verifies and approves the registration of police
 
+## Installation
+
 # Run Frontend
 
 ### `cd frontend`
@@ -18,9 +20,8 @@ Camsafe, a real-time criminal face recognition is a dynamic system designed to r
 
 ### `npm start`
 
-## Frontend will be hosted on below link
-
-### `http://localhost:3000/`
+Frontend will be hosted on below link
+http://localhost:3000/
 
 # Run Backend
 
@@ -38,9 +39,8 @@ Camsafe, a real-time criminal face recognition is a dynamic system designed to r
 
 ### `daphne -b 127.0.0.1 -p 8000 camsafe.asgi:application`
 
-## Backend will be hosted on below link
-
-### `http://127.0.0.1:8000/`
+Backend will be hosted on below link
+http://127.0.0.1:8000/
 
 # Run ML
 
@@ -91,3 +91,9 @@ Camsafe, a real-time criminal face recognition is a dynamic system designed to r
 ![13](https://github.com/pillaiganeshmohan/Camsafe/assets/68379838/5d1f1166-f15a-451f-8069-f60b5f97754f)
 
 ![14](https://github.com/pillaiganeshmohan/Camsafe/assets/68379838/9869502e-ad0e-4d07-9e64-ca1aacc3adf3)
+
+## Contributing
+If you would like to contribute to this project, please fork the repository and submit a pull request.
+
+## License
+This project is licensed under the **BSD 3-Clause "New" or "Revised" License**. See the [LICENSE](./LICENSE) file for details.
